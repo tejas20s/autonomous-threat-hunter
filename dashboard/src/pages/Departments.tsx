@@ -65,8 +65,8 @@ export default function Departments() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-white">Departments</h2>
-        <p className="text-sm text-slate-400 mt-1">
+        <h2 className="text-2xl font-bold page-header">Departments</h2>
+        <p className="text-sm page-subtitle mt-1">
           {deptStats.length} departments · {totalUsers} users · {totalAlerts} alerts
         </p>
       </div>
@@ -126,7 +126,7 @@ export default function Departments() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Alerts per department */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Alerts by Department</h3>
+          <h3 className="text-sm font-semibold page-subtitle mb-4">Alerts by Department</h3>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={chartData}>
@@ -155,7 +155,7 @@ export default function Departments() {
 
         {/* Severity distribution */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Alert Severity Distribution</h3>
+          <h3 className="text-sm font-semibold page-subtitle mb-4">Alert Severity Distribution</h3>
           {severityPieData.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -197,7 +197,7 @@ export default function Departments() {
 
       {/* Avg risk score chart */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4">Average Risk Score by Department</h3>
+        <h3 className="text-sm font-semibold page-subtitle mb-4">Average Risk Score by Department</h3>
         {chartData.length > 0 ? (
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={chartData} layout="vertical">
@@ -223,7 +223,7 @@ export default function Departments() {
 
       {/* Department detail table */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4">Department Comparison</h3>
+        <h3 className="text-sm font-semibold page-subtitle mb-4">Department Comparison</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

@@ -2,27 +2,54 @@
 
 **A complete SOC (Security Operations Center) insider threat detection platform** with AI-powered anomaly detection, real-time monitoring, behavioral baseline comparison, case management, executive dashboard, and full investigation workflows.
 
-```mermaid
-flowchart LR
-    subgraph Pipeline
-        A["Log Simulator<br/>generator.py"] --> B["Feature Extractor<br/>features.py"]
-        B --> C["Behavioral Baseline<br/>baseline.py"]
-        B --> D["Isolation Forest<br/>model.py"]
-        C --> E["Risk Scorer<br/>model.py"]
-        D --> E
-    end
-    E --> F[("Database<br/>SQLite / PostgreSQL")]
-    F --> G["FastAPI Backend<br/>SOC API v3.0"]
-    G --> H["React Dashboard<br/>SOC Portal"]
-    G --> I[("SSE Real-time<br/>Stream")]
-    K["Attack Simulator<br/>attack_simulator.py"] --> G
-    G --> J[("CSV Reports")]
-    G --> L["AI Insights<br/>ai-insights endpoint"]
-    G --> M["Detection Metrics<br/>detection-performance"]
-    H --> N["/users/:id/baseline<br/>Baseline Comparison"]
-    H --> O["/executive<br/>Executive Dashboard"]
-    H --> P["/performance<br/>Detection Performance"]
-```
+<p align="center">
+  <i>🏆 Built for hackathon demonstration — ready for real-world SOC deployment</i>
+</p>
+
+---
+
+## 📋 Table of Contents
+
+- [Tech Stack](#-tech-stack)
+- [What Makes This Stand Out](#-what-makes-this-stand-out)
+- [Detection Engine](#-detection-engine)
+- [All 34 SOC Features Implemented](#-all-34-soc-features-implemented)
+- [Architecture](#-architecture)
+- [Requirements / Prerequisites](#-requirements--prerequisites)
+- [Quick Start](#-quick-start)
+- [Demo & Access](#-demo--access)
+- [API Documentation](#-api-documentation)
+- [API Endpoints (50+)](#-api-endpoints-50)
+- [Dashboard Pages](#-dashboard-pages)
+- [Configuration](#-configuration)
+- [Default Admin Account](#-default-admin-account)
+- [Behavioral Baseline Comparison](#-behavioral-baseline-comparison)
+- [AI Insights & Score Breakdown](#-ai-insights--score-breakdown)
+- [Weekly Risk Trend](#-weekly-risk-trend)
+- [Executive Dashboard](#-executive-dashboard)
+- [Detection Performance](#-detection-performance)
+- [Investigation Summary](#-investigation-summary)
+- [Attack Simulator](#-attack-simulator)
+- [RBAC Roles](#-rbac-roles)
+- [Running Tests](#-running-tests)
+- [Future Improvements](#-future-improvements)
+- [Screenshots](#-screenshots)
+- [License](#-license)
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Backend** | Python 3.13, FastAPI, SQLAlchemy (async), Uvicorn |
+| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, Recharts |
+| **Database** | SQLite (development) / PostgreSQL (production) |
+| **ML / AI** | scikit-learn (Isolation Forest), NumPy, Pandas |
+| **Auth** | JWT (PyJWT), bcrypt password hashing |
+| **Real-time** | Server-Sent Events (SSE) |
+| **Infrastructure** | Docker, Docker Compose, Nginx |
+| **Testing** | Pytest, pytest-asyncio, HTTPX |
 
 ---
 
@@ -58,7 +85,7 @@ flowchart LR
 | **Audit Logging** | Every analyst action is recorded |
 | **CSV Report Generation** | Export alerts, cases, timelines, audit logs |
 | **Docker Deployment** | One-command setup with Docker Compose |
-| **Unit & API Tests** | 20+ tests across detection and API layers |
+| **Unit & API Tests** | 29 tests across detection and API layers |
 
 ---
 
@@ -112,7 +139,7 @@ Each triggered rule shows: **Feature → Z-score → Weight → Contribution →
 
 ---
 
-## 📋 All 23 SOC Features Implemented ✅
+## ✅ All 34 SOC Features Implemented
 
 | # | Feature | Module | Status |
 |---|---|---|---|
@@ -155,12 +182,35 @@ Each triggered rule shows: **Feature → Z-score → Weight → Contribution →
 
 ## 🏗️ Architecture
 
+```mermaid
+flowchart LR
+    subgraph Pipeline
+        A["Log Simulator<br/>generator.py"] --> B["Feature Extractor<br/>features.py"]
+        B --> C["Behavioral Baseline<br/>baseline.py"]
+        B --> D["Isolation Forest<br/>model.py"]
+        C --> E["Risk Scorer<br/>model.py"]
+        D --> E
+    end
+    E --> F[("Database<br/>SQLite / PostgreSQL")]
+    F --> G["FastAPI Backend<br/>SOC API v3.0"]
+    G --> H["React Dashboard<br/>SOC Portal"]
+    G --> I[("SSE Real-time<br/>Stream")]
+    K["Attack Simulator<br/>attack_simulator.py"] --> G
+    G --> J[("CSV Reports")]
+    G --> L["AI Insights<br/>ai-insights endpoint"]
+    G --> M["Detection Metrics<br/>detection-performance"]
+    H --> N["/users/:id/baseline<br/>Baseline Comparison"]
+    H --> O["/executive<br/>Executive Dashboard"]
+    H --> P["/performance<br/>Detection Performance"]
+```
+
 ```
 threat/
 ├── backend/
 │   ├── Dockerfile                # FastAPI container
 │   ├── Dockerfile.pipeline       # Pipeline runner container
 │   ├── requirements.txt          # Python dependencies
+│   ├── .env                      # Config (gitignored — create manually)
 │   ├── app/
 │   │   ├── main.py               # FastAPI SOC API (50+ endpoints)
 │   │   ├── database.py           # Database connection (PostgreSQL/SQLite)
@@ -234,6 +284,21 @@ threat/
 
 ---
 
+## 📋 Requirements / Prerequisites
+
+Before running the project, ensure you have the following installed:
+
+| Software | Version | Purpose |
+|----------|---------|---------|
+| **Python** | ≥ 3.10, recommended 3.13 | Backend API + ML pipeline |
+| **Node.js** | ≥ 18 | Dashboard development server |
+| **npm** | ≥ 9 | Package manager for dashboard |
+| **Docker** | ≥ 24 (optional) | Containerized deployment |
+| **Docker Compose** | ≥ 2.24 (optional) | Multi-container orchestration |
+| **Git** | Any recent version | Version control |
+
+---
+
 ## 🚀 Quick Start
 
 ### Option 1: Docker (Recommended)
@@ -252,17 +317,55 @@ This starts:
 ### Option 2: Local Development
 
 ```bash
-# Backend
+# 1. Backend — install dependencies
 cd backend
 pip install -r requirements.txt
+
+# 2. Create your .env file (required)
+# Copy the config section below into backend/.env and fill in values
+
+# 3. Run the data pipeline (generates simulated logs + trains models)
 python app/run_pipeline.py
+
+# 4. Start the API server
 uvicorn app.main:app --reload --port 8000
 
-# Dashboard (separate terminal)
+# 5. Dashboard (separate terminal)
 cd dashboard
 npm install
 npm run dev
 ```
+
+---
+
+## 🌐 Demo & Access
+
+Once running, access the platform at:
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **Dashboard** | `http://localhost:5173` | React frontend (dev server) |
+| **Dashboard** | `http://localhost:80` | Nginx production build (Docker) |
+| **Backend API** | `http://localhost:8000` | FastAPI REST API |
+| **Swagger Docs** | `http://localhost:8000/docs` | Interactive API documentation |
+| **ReDoc** | `http://localhost:8000/redoc` | Alternative API docs |
+
+---
+
+## 📖 API Documentation
+
+FastAPI automatically generates interactive API documentation:
+
+- **Swagger UI** → `http://localhost:8000/docs`
+  - Browse all endpoints
+  - Try requests directly from the browser
+  - View request/response schemas
+
+- **ReDoc** → `http://localhost:8000/redoc`
+  - Alternative documentation layout
+  - Better for printing/exporting
+
+The API serves 50+ endpoints across authentication, detection, analytics, case management, reporting, and system health.
 
 ---
 
@@ -330,7 +433,6 @@ npm run dev
 | GET | `/api/auth/me` | Current user info (token required) |
 | POST | `/api/auth/users` | Create user (Admin only) |
 | GET | `/api/auth/users` | List all SOC users (Admin only) |
-| GET | `/api/system/health` | Extended system health (model, events, retrain history) |
 
 ### Analytics
 | Method | Endpoint | Description |
@@ -342,13 +444,17 @@ npm run dev
 | GET | `/api/analytics/top-risk-users` | Highest risk users |
 | GET | `/api/analytics/weekly-trends` | Weekly aggregations |
 
-### Reports (CSV) & More
+### Reports (CSV)
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/reports/alerts/csv` | Export alerts |
 | GET | `/api/reports/cases/csv` | Export cases |
 | GET | `/api/reports/users/{id}/timeline/csv` | Export user timeline |
 | GET | `/api/reports/audit/csv` | Export audit logs |
+
+### System & Admin
+| Method | Endpoint | Description |
+|---|---|---|
 | POST | `/api/retrain` | Trigger full retraining |
 | GET | `/api/retrain/history` | Training history |
 | GET | `/api/audit-logs` | View audit logs (Admin only) |
@@ -356,7 +462,8 @@ npm run dev
 | POST | `/api/notifications/config` | Add notification channel |
 | GET | `/api/mitre/techniques` | All mapped MITRE ATT&CK techniques |
 | GET | `/api/threat-intel/ip/{ip}` | IP reputation & GeoIP |
-| GET | `/health` | Health check |
+| GET | `/api/system/health` | Extended system health |
+| GET | `/health` | Simple health check |
 
 ---
 
@@ -381,6 +488,76 @@ npm run dev
 | **Executive Dashboard** 🆕 | `/executive` | KPI cards, department risk comparison, top 10 risky employees |
 | **Detection Performance** 🆕 | `/performance` | Precision, recall, F1, FP rate, confusion matrix, missed scenarios |
 | **Departments** | `/departments` | Per-dept cards, severity charts, comparison table |
+
+---
+
+## ⚙️ Configuration
+
+All configuration comes from a single `backend/.env` file. **This file is excluded from Git via `.gitignore` — you must create it manually.**
+
+### Quick Setup
+
+```bash
+# Create the .env file
+touch backend/.env
+
+# Generate a secure JWT secret key
+python -c "import secrets; print(secrets.token_hex(32))"
+# → Copy the output (e.g., a9f8c7b6e5d4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f)
+```
+
+### Required Environment Variables
+
+```env
+# ── JWT Authentication (REQUIRED) ─────────────────────────────────────────
+# Generate with: python -c "import secrets; print(secrets.token_hex(32))"
+JWT_SECRET_KEY=your-64-char-hex-key-here
+
+# ── Default Admin Account (REQUIRED) ──────────────────────────────────────
+# Sets the password for username "admin" created on first startup
+DEFAULT_ADMIN_PASSWORD=YourStrongPassword123
+DEFAULT_ADMIN_NAME=Admin User
+```
+
+### Optional Environment Variables
+
+```env
+# ── Database ──────────────────────────────────────────────────────────────
+# Default: local SQLite file. Uncomment for PostgreSQL:
+# DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/insider_threat
+
+# ── SMTP Email (for OTP verification + alert notifications) ───────────────
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USERNAME=your-email@gmail.com
+# SMTP_PASSWORD=your-app-password
+# SMTP_FROM=noreply@soc.local
+
+# ── CORS (allowed origins for dashboard) ──────────────────────────────────
+# CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://localhost:80
+
+# ── Token Lifetimes (optional, defaults shown) ────────────────────────────
+# JWT_ACCESS_EXPIRE_MINUTES=60
+# JWT_REFRESH_EXPIRE_DAYS=7
+```
+
+> **⚠️ Security Note:** Never commit the `.env` file to Git. It is already in `.gitignore`. If the `DEFAULT_ADMIN_PASSWORD` is missing, the server will refuse to start with a clear error message.
+
+---
+
+## 👤 Default Admin Account
+
+On first startup, if no users exist in the database, the system automatically creates a default admin account:
+
+| Field | Value |
+|-------|-------|
+| **Username** | `admin` |
+| **Password** | Whatever you set as `DEFAULT_ADMIN_PASSWORD` in `.env` |
+| **Display Name** | Whatever you set as `DEFAULT_ADMIN_NAME` in `.env` |
+| **Role** | `Admin` |
+| **Email** | Default: `admin@soc.local` (override with `DEFAULT_ADMIN_EMAIL`) |
+
+> **⚠️ Important:** Change the default password immediately after first login. New users can be created from the **Admin Dashboard** (`/admin`) by an existing Admin.
 
 ---
 
@@ -573,50 +750,83 @@ curl -X POST "http://localhost:8000/api/simulate/attack?attack_type=combined"
 
 ## 🧪 Running Tests
 
+The project contains **29 automated tests** split across two test suites:
+
 ```bash
 cd backend
 pip install -r requirements.txt
+
+# Run all tests
 pytest tests/ -v
 
-# Specific test file
-pytest tests/test_detection.py -v      # 19 detection pipeline tests
-pytest tests/test_api.py -v             # 10 API integration tests
+# Detection pipeline unit tests (19 tests)
+# Tests: baseline computation, z-score logic, rule-based scoring,
+#        severity classification, Isolation Forest training
+pytest tests/test_detection.py -v
+
+# API integration tests (10 tests)
+# Tests: health endpoint, authentication (valid/invalid credentials),
+#        alerts listing, user listing, departments, analytics, SSE streaming
+pytest tests/test_api.py -v
 ```
+
+### Test Coverage Areas
+
+| Test Suite | Count | What It Covers |
+|---|---|---|
+| **Behavioral Baseline** | 4 tests | User baseline building, feature validation, std floor, readiness check |
+| **Z-Score** | 5 tests | Normal calculation, zero, negative, NaN, None handling |
+| **Rule-Based Scoring** | 3 tests | Normal/anomalous day detection, reason explanations |
+| **Severity** | 5 tests | Critical/High/Medium/Low thresholds, baseline-not-ready cap |
+| **Isolation Forest** | 2 tests | Score range validation, anomaly ranking |
+| **API Integration** | 10 tests | Health, auth, alerts, users, departments, analytics, SSE |
 
 ---
 
-## ⚙️ Configuration
+## 🔮 Future Improvements
 
-All configuration comes from a single `backend/.env` file. **Zero hardcoded secrets in the code.**
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| **Active Directory / LDAP Integration** | Authenticate SOC analysts via corporate directory — SSO support | High |
+| **Kafka Event Streaming** | Replace SSE with Apache Kafka for scalable real-time event ingestion | Medium |
+| **Cloud Deployment** | Deploy to AWS/GCP/Azure with managed PostgreSQL, S3, and load balancing | Medium |
+| **SIEM Integrations** | Forward alerts to Splunk, Elastic SIEM, or QRadar via syslog or webhook | Medium |
+| **Prometheus Monitoring** | Export metrics (alert rate, model latency, API response times) for Grafana dashboards | Low |
+| **AI-Powered Investigation Assistant** | LLM-powered chat assistant that answers analyst questions about alerts, users, and cases | Low |
+| **WebSocket Upgrade** | Replace SSE with full-duplex WebSocket for bidirectional real-time communication | Low |
+| **Mobile Push Notifications** | Alert on-call analysts via push notification for Critical severity incidents | Low |
+| **Retention Policies** | Auto-archive old alerts and events based on configurable retention periods | Low |
+| **Multi-Tenant Support** | Separate SOC workspaces for different organizations or departments | Low |
 
-```env
-# ── REQUIRED ─────────────────────────────────────────────────
-# Generate with: python -c "import secrets; print(secrets.token_hex(32))"
-JWT_SECRET_KEY=
+---
 
-# Set a strong password for the default admin account
-DEFAULT_ADMIN_PASSWORD=
-DEFAULT_ADMIN_NAME=
+## 📸 Screenshots
 
-# ── Database ──────────────────────────────────────────────────
-# Default: local SQLite file. Uncomment for PostgreSQL:
-# DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/insider_threat
+> *Screenshots will be added here. Below are placeholders — replace with actual images from your deployment.*
 
-# ── SMTP Email (optional — for OTP + alert notifications) ────
-# SMTP_HOST=smtp.gmail.com
-# SMTP_PORT=587
-# SMTP_USERNAME=your-email@gmail.com
-# SMTP_PASSWORD=your-app-password
-# SMTP_FROM=noreply@soc.local
-
-# ── CORS (optional) ──────────────────────────────────────────
-# CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://localhost:80
-```
-
-**Important:** Edit `backend/.env` directly and fill in your values. The `.env` file is gitignored and will not be committed. No `.env.example` needed.
+| Page | Preview |
+|------|---------|
+| **Login Page** | `[Screenshot of login page — email + password form]` |
+| **Registration** | `[Screenshot of registration form with OTP verification step]` |
+| **SOC Dashboard** | `[Screenshot of main dashboard with stats cards and charts]` |
+| **Alert Investigation** | `[Screenshot of alert detail with AI insights tab]` |
+| **Attack Simulator** | `[Screenshot of simulator page with attack buttons and results]` |
+| **Behavioral Baseline** | `[Screenshot of baseline comparison table with z-scores]` |
+| **Executive Dashboard** | `[Screenshot of org-wide KPIs and department risk chart]` |
+| **Detection Performance** | `[Screenshot of precision/recall metrics and confusion matrix]` |
+| **Case Management** | `[Screenshot of case list with evidence and comments]` |
+| **Admin Dashboard** | `[Screenshot of admin panel with user management]` |
+| **System Health** | `[Screenshot of system status page]` |
+| **User Investigation** | `[Screenshot of user detail with risk trend chart]` |
 
 ---
 
 ## 📁 License
 
-Built for the Autonomous Threat Hunter for Insider Attacks project — a complete SOC platform demonstration.
+This project was developed for **educational and hackathon demonstration purposes**.
+
+It is not licensed for commercial use or production deployment without review. The codebase demonstrates a complete SOC insider threat detection platform with AI-powered anomaly detection, behavioral baseline analysis, case management, and real-time monitoring.
+
+---
+
+> **Built with ❤️ for the Autonomous Threat Hunter for Insider Attacks hackathon project.**

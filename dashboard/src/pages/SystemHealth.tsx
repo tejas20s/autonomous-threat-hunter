@@ -60,8 +60,8 @@ export default function SystemHealth() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">System Health</h2>
-          <p className="text-sm text-slate-400 mt-1">Real-time system status and metrics</p>
+          <h2 className="text-2xl font-bold page-header">System Health</h2>
+          <p className="text-sm page-subtitle mt-1">Real-time system status and metrics</p>
         </div>
         <button onClick={refresh} disabled={refreshing} className="btn-secondary text-sm flex items-center gap-2">
           <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
@@ -132,20 +132,20 @@ export default function SystemHealth() {
 
       {/* Model Info */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
           <Brain size={16} className="text-purple-400" />
           AI Model Status
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="rounded-lg bg-slate-800/50 border border-slate-700/50 p-3">
-            <div className="text-xs text-slate-500">Status</div>
+          <div className="inner-box">
+            <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Status</div>
             <div className={`text-sm font-bold mt-1 ${modelStatus?.status === 'ready' ? 'text-green-400' : 'text-yellow-400'}`}>
               {modelStatus?.status || 'N/A'}
             </div>
           </div>
           <div className="rounded-lg bg-slate-800/50 border border-slate-700/50 p-3">
             <div className="text-xs text-slate-500">Version</div>
-            <div className="text-sm font-bold mt-1 text-slate-200">{modelStatus?.version ? `v${modelStatus.version}` : '-'}</div>
+            <div className="text-sm font-bold mt-1" style={{ color: 'var(--text-primary)' }}>{modelStatus?.version ? `v${modelStatus.version}` : '-'}</div>
           </div>
           <div className="rounded-lg bg-slate-800/50 border border-slate-700/50 p-3">
             <div className="text-xs text-slate-500">Users Trained</div>

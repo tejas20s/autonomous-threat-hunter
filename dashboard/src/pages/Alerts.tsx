@@ -56,8 +56,8 @@ export default function Alerts() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Alert Queue</h2>
-          <p className="text-sm text-slate-400 mt-1">
+          <h2 className="text-2xl font-bold page-header">Alert Queue</h2>
+          <p className="text-sm page-subtitle mt-1">
             {filteredAlerts.length} alert{filteredAlerts.length !== 1 ? 's' : ''} found
           </p>
         </div>

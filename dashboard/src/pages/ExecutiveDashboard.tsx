@@ -58,11 +58,11 @@ export default function ExecutiveDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+        <h2 className="text-2xl font-bold page-header flex items-center gap-3">
           <Briefcase className="text-indigo-400" size={24} />
           Executive Dashboard
         </h2>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm page-subtitle mt-1">
           Organizational overview — threat landscape, department risk, and top concerns
         </p>
       </div>
@@ -110,7 +110,7 @@ export default function ExecutiveDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Severity pie */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Alert Severity Distribution</h3>
+          <h3 className="text-sm font-semibold page-subtitle mb-4">Alert Severity Distribution</h3>
           {severityPieData.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
               <PieChart>
@@ -136,7 +136,7 @@ export default function ExecutiveDashboard() {
 
         {/* Department risk chart */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Department Risk Comparison</h3>
+          <h3 className="text-sm font-semibold page-subtitle mb-4">Department Risk Comparison</h3>
           {data.departments.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={data.departments} layout="vertical" margin={{ left: 80, right: 20 }}>
@@ -160,7 +160,7 @@ export default function ExecutiveDashboard() {
 
       {/* Department detail table */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
           <Building2 size={16} className="text-indigo-400" />
           Department Breakdown
         </h3>
@@ -218,7 +218,7 @@ export default function ExecutiveDashboard() {
 
       {/* Top risky employees */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
           <Users size={16} className="text-orange-400" />
           Top Risky Employees
         </h3>

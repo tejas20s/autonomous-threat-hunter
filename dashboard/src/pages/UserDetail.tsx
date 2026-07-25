@@ -106,7 +106,7 @@ export default function UserDetail() {
               {id?.replace('user', '')}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">{user.user_id}</h2>
+              <h2 className="text-xl font-bold page-header">{user.user_id}</h2>
               <div className="flex items-center gap-3 mt-1 text-sm text-slate-400">
                 <span className="flex items-center gap-1">
                   <Building2 size={14} />
@@ -159,7 +159,7 @@ export default function UserDetail() {
 
       {/* Risk score chart */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
           <Activity size={16} className="text-indigo-400" />
           Risk Score Trend
         </h3>
@@ -200,7 +200,7 @@ export default function UserDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Files & Downloads */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
             <FileText size={16} className="text-blue-400" />
             File Activity
           </h3>
@@ -227,7 +227,7 @@ export default function UserDetail() {
 
         {/* Transfers & USB */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
             <UploadCloud size={16} className="text-green-400" />
             Data Transfers & USB
           </h3>
@@ -256,7 +256,7 @@ export default function UserDetail() {
       {/* Alerts for this user */}
       <div className="card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle flex items-center gap-2">
             <AlertTriangle size={16} className="text-orange-400" />
             Alert History
           </h3>
@@ -307,7 +307,7 @@ export default function UserDetail() {
       {/* Weekly Risk Trend Chart */}
       {riskTrend.length > 0 && (
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
             <TrendingUp size={16} className="text-indigo-400" />
             Behavioral Risk Trend (Weekly)
           </h3>
@@ -346,7 +346,7 @@ export default function UserDetail() {
 
       {/* User baseline details */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
           <Shield size={16} className="text-green-400" />
           Behavioral Baseline Status
         </h3>

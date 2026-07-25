@@ -121,7 +121,7 @@ export default function CaseDetail() {
               <SeverityBadge severity={caseData.severity} />
               <span className="font-mono text-xs text-slate-500">{caseData.case_id}</span>
             </div>
-            <h2 className="text-xl font-bold text-white">{caseData.title}</h2>
+            <h2 className="text-xl font-bold page-header">{caseData.title}</h2>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-400">
               <span className="flex items-center gap-1.5"><User size={14} /> {caseData.user_id}</span>
               <span className="flex items-center gap-1.5"><Calendar size={14} /> {caseData.created_at?.slice(0, 10)}</span>

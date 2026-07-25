@@ -34,9 +34,19 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        background: 'linear-gradient(135deg, var(--bg-base), var(--bg-surface), var(--bg-base))',
+      }}
+    >
       {/* Background grid effect */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTI5M2IiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTI5M2IiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiLz48L2c+PC9nPjwvc3ZnPg==')`,
+        }}
+      />
 
       <div className="relative w-full max-w-md">
         {/* Logo area */}
@@ -44,20 +54,20 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 mb-4">
             <ShieldAlert size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white">ThreatWatch</h1>
-          <p className="text-sm text-slate-400 mt-1">SOC Insider Threat Detection Platform</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>ThreatWatch</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>SOC Insider Threat Detection Platform</p>
         </div>
 
         {/* Login card */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 backdrop-blur-xl p-8 shadow-2xl">
+        <div className="rounded-2xl backdrop-blur-xl p-8 shadow-2xl" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-white">Sign In</h2>
-            <p className="text-sm text-slate-400 mt-1">Authorized personnel only</p>
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Sign In</h2>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Authorized personnel only</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label htmlFor="username" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                 Username
               </label>
               <input
@@ -68,12 +78,12 @@ export default function Login() {
                 placeholder="Enter your username"
                 autoComplete="username"
                 autoFocus
-                className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                className="input-field w-full px-4 py-2.5"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label htmlFor="password" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                 Password
               </label>
               <div className="relative">
@@ -84,12 +94,15 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   autoComplete="current-password"
-                  className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all pr-10"
+                  className="input-field w-full px-4 py-2.5 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -97,7 +110,7 @@ export default function Login() {
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-900/30 border border-red-800/50 px-4 py-3 text-sm text-red-300">
+              <div className="rounded-lg px-4 py-3 text-sm text-red-300" style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
                 {error}
               </div>
             )}
@@ -121,17 +134,17 @@ export default function Login() {
 
         {/* Register link */}
         <div className="text-center mt-6">
-          <p className="text-sm text-slate-500">
+          <p style={{ color: 'var(--text-muted)' }} className="text-sm">
             Don't have an account?{' '}
-            <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+            <Link to="/register" className="font-medium transition-colors" style={{ color: '#818cf8' }}>
               Register
             </Link>
           </p>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-slate-600 mt-4">
-          Default credentials: <span className="text-slate-500 font-mono">admin</span> / <span className="text-slate-500 font-mono">admin123</span>
+        <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>
+          Default credentials: <span style={{ color: 'var(--text-secondary)' }} className="font-mono">admin</span> / <span style={{ color: 'var(--text-secondary)' }} className="font-mono">admin123</span>
         </p>
       </div>
     </div>

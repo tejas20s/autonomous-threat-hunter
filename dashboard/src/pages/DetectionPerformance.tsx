@@ -63,11 +63,11 @@ export default function DetectionPerformance() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+        <h2 className="text-2xl font-bold page-header flex items-center gap-3">
           <BarChart3 className="text-green-400" size={24} />
           Detection Performance
         </h2>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm page-subtitle mt-1">
           AI model metrics computed against {data.total_injected_scenarios} injected ground-truth scenarios
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function DetectionPerformance() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Confusion Matrix */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
             <Shield size={16} className="text-indigo-400" />
             Confusion Matrix
           </h3>
@@ -117,7 +117,7 @@ export default function DetectionPerformance() {
 
         {/* Performance details */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle mb-4 flex items-center gap-2">
             <Activity size={16} className="text-indigo-400" />
             Performance Summary
           </h3>

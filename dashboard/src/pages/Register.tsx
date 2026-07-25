@@ -181,13 +181,15 @@ export default function Register() {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4"
+        style={{ background: 'linear-gradient(135deg, var(--bg-base), var(--bg-surface), var(--bg-base))' }}
+      >
         <div className="w-full max-w-md text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/20 mb-4">
             <CheckCircle size={32} className="text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Account Verified!</h2>
-          <p className="text-slate-400 mb-6">Redirecting you to the dashboard...</p>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Account Verified!</h2>
+          <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>Redirecting you to the dashboard...</p>
           <div className="flex justify-center">
             <Activity size={24} className="animate-spin text-indigo-400" />
           </div>
@@ -200,8 +202,14 @@ export default function Register() {
 
   if (step === 'otp') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTI5M2IiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
+      <div className="min-h-screen flex items-center justify-center p-4"
+        style={{ background: 'linear-gradient(135deg, var(--bg-base), var(--bg-surface), var(--bg-base))' }}
+      >
+        <div className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTI5M2IiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiLz48L2c+PC9nPjwvc3ZnPg==')`,
+          }}
+        />
 
         <div className="relative w-full max-w-md">
           {/* Logo */}
@@ -209,19 +217,21 @@ export default function Register() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 mb-4">
               <Mail size={32} className="text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Check Your Email</h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Check Your Email</h1>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
               We sent a verification code to <span className="text-indigo-400 font-medium">{otpEmail}</span>
             </p>
           </div>
 
           {/* OTP Card */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/80 backdrop-blur-xl p-8 shadow-2xl">
+          <div className="rounded-2xl backdrop-blur-xl p-8 shadow-2xl"
+            style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
+          >
             <div className="mb-6 text-center">
-              <h2 className="text-lg font-semibold text-white">Enter Verification Code</h2>
-              <p className="text-sm text-slate-400 mt-1">
+              <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Enter Verification Code</h2>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
                 Code expires in{' '}
-                <span className={`font-mono font-medium ${otpTimer < 60 ? 'text-red-400' : 'text-slate-300'}`}>
+                <span className={`font-mono font-medium ${otpTimer < 60 ? 'text-red-400' : ''}`} style={otpTimer >= 60 ? { color: 'var(--text-primary)' } : {}}>
                   {formatTimer(otpTimer)}
                 </span>
               </p>
@@ -239,13 +249,13 @@ export default function Register() {
                   value={digit}
                   onChange={(e) => handleOtpChange(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                  className="w-12 h-14 text-center text-xl font-bold text-white bg-slate-800/80 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                  className="w-12 h-14 text-center text-xl font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all input-field"
                 />
               ))}
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-900/30 border border-red-800/50 px-4 py-3 text-sm text-red-300 mb-4 text-center">
+              <div className="rounded-lg px-4 py-3 text-sm text-red-300 mb-4 text-center" style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
                 {error}
               </div>
             )}
@@ -277,7 +287,7 @@ export default function Register() {
                   Resend code
                 </button>
               ) : (
-                <p className="text-sm text-slate-500">
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
                   Didn't receive it? Resend available in {formatTimer(otpTimer)}
                 </p>
               )}
@@ -287,7 +297,10 @@ export default function Register() {
             <div className="mt-4 text-center">
               <button
                 onClick={() => setStep('form')}
-                className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-300 transition-colors"
+                className="inline-flex items-center gap-1 text-sm transition-colors"
+                style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
               >
                 <ArrowLeft size={14} />
                 Back to registration
@@ -302,8 +315,14 @@ export default function Register() {
   // ── Registration Form ─────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTI5M2IiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
+    <div className="min-h-screen flex items-center justify-center p-4"
+      style={{ background: 'linear-gradient(135deg, var(--bg-base), var(--bg-surface), var(--bg-base))' }}
+    >
+      <div className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTI5M2IiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiLz48L2c+PC9nPjwvc3ZnPg==')`,
+        }}
+      />
 
       <div className="relative w-full max-w-md">
         {/* Logo */}
@@ -311,15 +330,17 @@ export default function Register() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 mb-4">
             <ShieldAlert size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white">ThreatWatch</h1>
-          <p className="text-sm text-slate-400 mt-1">Create Your SOC Account</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>ThreatWatch</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Create Your SOC Account</p>
         </div>
 
         {/* Register card */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 backdrop-blur-xl p-8 shadow-2xl">
+        <div className="rounded-2xl backdrop-blur-xl p-8 shadow-2xl"
+          style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
+        >
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-white">Register</h2>
-            <p className="text-sm text-slate-400 mt-1">
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Register</h2>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
               Fill in your details — a verification code will be sent to your email
             </p>
           </div>
@@ -327,7 +348,7 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="reg-username" className="block text-sm font-medium text-slate-300 mb-1.5">
+                <label htmlFor="reg-username" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                   Username *
                 </label>
                 <input
@@ -338,11 +359,11 @@ export default function Register() {
                   placeholder="Choose a username"
                   autoComplete="username"
                   autoFocus
-                  className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                  className="input-field w-full px-4 py-2.5"
                 />
               </div>
               <div>
-                <label htmlFor="reg-name" className="block text-sm font-medium text-slate-300 mb-1.5">
+                <label htmlFor="reg-name" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                   Full Name
                 </label>
                 <input
@@ -352,13 +373,13 @@ export default function Register() {
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Your full name"
                   autoComplete="name"
-                  className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                  className="input-field w-full px-4 py-2.5"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="reg-email" className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label htmlFor="reg-email" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                 Company Email *
               </label>
               <input
@@ -368,12 +389,12 @@ export default function Register() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
                 autoComplete="email"
-                className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                className="input-field w-full px-4 py-2.5"
               />
             </div>
 
             <div>
-              <label htmlFor="reg-password" className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label htmlFor="reg-password" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                 Password *
               </label>
               <div className="relative">
@@ -384,12 +405,15 @@ export default function Register() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 6 characters"
                   autoComplete="new-password"
-                  className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all pr-10"
+                  className="input-field w-full px-4 py-2.5 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -397,7 +421,7 @@ export default function Register() {
             </div>
 
             <div>
-              <label htmlFor="reg-confirm" className="block text-sm font-medium text-slate-300 mb-1.5">
+              <label htmlFor="reg-confirm" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
                 Confirm Password *
               </label>
               <input
@@ -407,12 +431,12 @@ export default function Register() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Repeat your password"
                 autoComplete="new-password"
-                className="w-full px-4 py-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                className="input-field w-full px-4 py-2.5"
               />
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-900/30 border border-red-800/50 px-4 py-3 text-sm text-red-300">
+              <div className="rounded-lg px-4 py-3 text-sm text-red-300" style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
                 {error}
               </div>
             )}
@@ -434,9 +458,9 @@ export default function Register() {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+              <Link to="/login" className="font-medium transition-colors" style={{ color: '#818cf8' }}>
                 Sign In
               </Link>
             </p>

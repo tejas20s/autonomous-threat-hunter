@@ -348,7 +348,7 @@ async def get_executive_dashboard() -> dict:
                 DailyFeature.department,
                 func.avg(DailyFeature.risk_score).label("avg_risk"),
                 func.count(DailyFeature.id).label("total_days"),
-                func.sum(func.cast(DailyFeature.risk_score >= 40, func.Integer)).label("alert_days"),
+                func.sum(case((DailyFeature.risk_score >= 40, 1), else_=0)).label("alert_days"),
                 func.max(DailyFeature.risk_score).label("max_risk"),
             )
             .group_by(DailyFeature.department)
@@ -372,7 +372,7 @@ async def get_executive_dashboard() -> dict:
                 func.avg(DailyTimeline.risk_score).label("avg_risk"),
                 func.max(DailyTimeline.risk_score).label("max_risk"),
                 func.count(DailyTimeline.id).label("active_days"),
-                func.sum(func.cast(DailyTimeline.risk_score >= 40, func.Integer)).label("alert_days"),
+                func.sum(case((DailyTimeline.risk_score >= 40, 1), else_=0)).label("alert_days"),
             )
             .group_by(DailyTimeline.user_id)
             .order_by(func.avg(DailyTimeline.risk_score).desc())

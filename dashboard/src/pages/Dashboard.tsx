@@ -78,8 +78,8 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-white">Security Operations Dashboard</h2>
-        <p className="text-sm text-slate-400 mt-1">
+        <h2 className="text-2xl font-bold page-header">Security Operations Dashboard</h2>
+        <p className="text-sm page-subtitle mt-1">
           Real-time insider threat monitoring and risk analysis
         </p>
       </div>
@@ -120,7 +120,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Severity distribution */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Severity Distribution</h3>
+          <h3 className="text-sm font-semibold page-subtitle mb-4">Severity Distribution</h3>
           {severityData.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <PieChart>
@@ -167,7 +167,7 @@ export default function Dashboard() {
 
         {/* Risk score trend */}
         <div className="card p-5">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Risk Score Trend</h3>
+          <h3 className="text-sm font-semibold page-subtitle mb-4">Risk Score Trend</h3>
           {trendData.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={trendData}>
@@ -207,7 +207,7 @@ export default function Dashboard() {
 
       {/* Severity bar chart */}
       <div className="card p-5">
-        <h3 className="text-sm font-semibold text-slate-300 mb-4">Alerts by Severity</h3>
+        <h3 className="text-sm font-semibold page-subtitle mb-4">Alerts by Severity</h3>
         {severityData.length > 0 ? (
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={severityData}>
@@ -251,10 +251,10 @@ export default function Dashboard() {
                 <Briefcase size={20} />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors">
+                <h3 className="text-sm font-semibold group-hover:text-white transition-colors" style={{ color: 'var(--text-primary)' }}>
                   Executive Dashboard
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
                   Organizational overview, department risk, and top concerns
                 </p>
               </div>
@@ -272,10 +272,10 @@ export default function Dashboard() {
                 <BarChart3 size={20} />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors">
+                <h3 className="text-sm font-semibold group-hover:text-white transition-colors" style={{ color: 'var(--text-primary)' }}>
                   Detection Performance
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
                   AI metrics: precision, recall, F1-score, and false positive rate
                 </p>
               </div>
@@ -288,7 +288,7 @@ export default function Dashboard() {
       {/* Recent alerts */}
       <div className="card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-slate-300">Recent Alerts</h3>
+          <h3 className="text-sm font-semibold page-subtitle">Recent Alerts</h3>
           <button
             onClick={() => navigate('/alerts')}
             className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
@@ -300,7 +300,7 @@ export default function Dashboard() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-slate-800 text-left text-xs text-slate-500 uppercase tracking-wider">
+                <tr className="border-b text-left text-xs uppercase tracking-wider" style={{ borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
                   <th className="pb-3 pr-4">Alert ID</th>
                   <th className="pb-3 pr-4">User</th>
                   <th className="pb-3 pr-4">Department</th>
@@ -314,7 +314,7 @@ export default function Dashboard() {
                   <tr
                     key={alert.alert_id}
                     onClick={() => navigate(`/alerts/${alert.alert_id}`)}
-                    className="border-b border-slate-800/50 hover:bg-slate-800/30 cursor-pointer transition-colors"
+                    className="border-b cursor-pointer transition-colors" style={{ borderColor: 'var(--border-color)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--nav-hover)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                   >
                     <td className="py-3 pr-4 font-mono text-xs text-slate-400">
                       {alert.alert_id}

@@ -39,8 +39,8 @@ export default function NotificationSettings() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Notification Settings</h2>
-          <p className="text-sm text-slate-400 mt-1">Configure alert notification channels</p>
+          <h2 className="text-2xl font-bold page-header">Notification Settings</h2>
+          <p className="text-sm page-subtitle mt-1">Configure alert notification channels</p>
         </div>
         <button onClick={() => setShowAdd(true)} className="btn-primary text-sm flex items-center gap-2">
           <Plus size={16} />

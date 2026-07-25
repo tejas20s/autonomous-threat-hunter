@@ -65,8 +65,8 @@ export default function Users() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Users</h2>
-          <p className="text-sm text-slate-400 mt-1">
+          <h2 className="text-2xl font-bold page-header">Users</h2>
+          <p className="text-sm page-subtitle mt-1">
             {filteredUsers.length} user{filteredUsers.length !== 1 ? 's' : ''} monitored
           </p>
         </div>

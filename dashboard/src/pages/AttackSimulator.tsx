@@ -162,11 +162,11 @@ export default function AttackSimulator() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h2 className="text-2xl font-bold page-header flex items-center gap-3">
             <Crosshair className="text-red-400" size={24} />
             Attack Simulator
           </h2>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm page-subtitle mt-1">
             Click an attack button to simulate a real insider threat in real-time. Watch the detection engine respond instantly.
           </p>
         </div>
@@ -259,7 +259,7 @@ export default function AttackSimulator() {
 
         {/* Right: Result panel */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+          <h3 className="text-sm font-semibold page-subtitle flex items-center gap-2">
             <Activity size={16} className="text-indigo-400" />
             Detection Result
           </h3>
