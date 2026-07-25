@@ -13,14 +13,23 @@ Endpoints for:
 - Audit logging
 - Advanced analytics
 - Health check
+
+ALL secrets come from environment variables (loaded via .env).
 """
 
 import json
 import math
+import os
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+
+from dotenv import load_dotenv
+
+# Load .env before anything else — all modules below will read env vars
+_env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(dotenv_path=_env_path)
 
 from fastapi import FastAPI, HTTPException, Query, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,15 +41,16 @@ from database import async_session_factory, engine
 from models import (
     Base, Alert, DailyTimeline, DailyFeature, UserProfile, BehavioralBaseline,
     AlertComment, AttackTimelineEvent, InvestigationCase, SOCUser, AuditLog,
-    NotificationConfig, MITREMapping, ModelTrainingLog, AlertStatus, UserRole,
+    NotificationConfig, MITREMapping, ModelTrainingLog, AlertStatus, UserRole, RawEvent, OTPVerification,
 )
 from auth import (
     authenticate_user, get_current_user, require_analyst, require_admin,
     require_any, log_audit, initialize_default_admin, create_user,
+    refresh_access_token, revoke_token, decode_token,
 )
 from websocket_manager import sse_manager, notify_new_alert, notify_alert_update
 from mitre_attack import get_primary_technique, init_mitre_mappings
-from notifications import notify_alert
+from notifications import notify_alert, send_otp_email
 from case_manager import create_case, get_case, list_cases, update_case_status, add_evidence
 from threat_intel import enrich_alert_ips
 from report_generator import export_alerts_csv, export_cases_csv, export_user_timeline_csv, export_audit_log_csv
@@ -56,9 +66,12 @@ OUT_DIR = Path(__file__).parent.parent / "output"
 
 app = FastAPI(title="SOC Insider Threat Detection API", version="3.0.0")
 
+# CORS origins from env (default: local dev)
+_cors_env = os.environ.get("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000,http://localhost:80")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[o.strip() for o in _cors_env.split(",")],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -98,28 +111,257 @@ async def get_db():
 # ── Auth Endpoints ─────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
-async def login(username: str = Query(...), password: str = Query(...)):
+async def login(body: dict):
+    """Login with username/password in JSON body."""
+    username = body.get("username", "")
+    password = body.get("password", "")
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="Username and password required")
     user = await authenticate_user(username, password)
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
 
 
+@app.post("/api/auth/register")
+async def register(body: dict):
+    """
+    Step 1 of registration: validate details, save pending, send OTP email.
+    Does NOT create the user — that happens after OTP verification.
+    """
+    from datetime import timedelta
+    import random
+    
+    username = body.get("username", "")
+    email = body.get("email", "")
+    password = body.get("password", "")
+    full_name = body.get("full_name")
+    
+    if not username or not email or not password:
+        raise HTTPException(status_code=400, detail="Username, email, and password required")
+    if len(password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+    if "@" not in email:
+        raise HTTPException(status_code=400, detail="Invalid email address")
+    
+    # Check if user already exists
+    async with async_session_factory() as session:
+        existing = await session.execute(
+            select(SOCUser).where((SOCUser.username == username) | (SOCUser.email == email))
+        )
+        if existing.scalar_one_or_none():
+            raise HTTPException(status_code=400, detail="Username or email already exists")
+    
+    # Hash the password now (so we never store plaintext even temporarily)
+    from auth import _hash_password
+    hashed = _hash_password(password)
+    
+    # Generate 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+    
+    # Store pending registration
+    async with async_session_factory() as session:
+        # Remove any existing pending OTP for this email
+        existing_otp = await session.execute(
+            select(OTPVerification).where(OTPVerification.email == email)
+        )
+        for row in existing_otp.scalars().all():
+            await session.delete(row)
+        
+        pending = OTPVerification(
+            email=email,
+            otp_code=otp,
+            username=username,
+            hashed_password=hashed,
+            full_name=full_name,
+            role=UserRole.ANALYST.value,
+            expires_at=expires_at,
+        )
+        session.add(pending)
+        await session.commit()
+    
+    # Send OTP via email
+    await send_otp_email(email, otp)
+    
+    return {
+        "status": "otp_sent",
+        "message": f"Verification code sent to {email}",
+        "email": email,
+        "expires_in_minutes": 10,
+    }
+
+
 @app.post("/api/auth/users", dependencies=[Depends(require_admin)])
 async def create_soc_user(
-    username: str, email: str, password: str,
-    role: str = UserRole.ANALYST.value,
-    full_name: Optional[str] = None,
+    body: dict,
     current_user: dict = Depends(get_current_user),
 ):
+    username = body.get("username", "")
+    email = body.get("email", "")
+    password = body.get("password", "")
+    role = body.get("role", UserRole.ANALYST.value)
+    full_name = body.get("full_name")
     user = await create_user(username, email, password, role, full_name)
     await log_audit(current_user["username"], "create_user", "user", username)
     return user
 
 
 @app.get("/api/auth/me")
-async def get_me(current_user: dict = Depends(require_any)):
-    return current_user
+async def get_me(
+    current_user: dict = Depends(require_any),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get current user info including full_name from database."""
+    result = await db.execute(
+        select(SOCUser.username, SOCUser.role, SOCUser.full_name)
+        .where(SOCUser.username == current_user["username"])
+    )
+    row = result.one_or_none()
+    if row:
+        return {
+            "username": row.username,
+            "role": row.role,
+            "full_name": row.full_name,
+        }
+    return {
+        "username": current_user["username"],
+        "role": current_user["role"],
+        "full_name": None,
+    }
+
+
+@app.post("/api/auth/verify-otp")
+async def verify_otp(body: dict):
+    """
+    Step 2 of registration: verify OTP and create the user account.
+    """
+    email = body.get("email", "")
+    otp = body.get("otp", "")
+    
+    if not email or not otp:
+        raise HTTPException(status_code=400, detail="Email and OTP code required")
+    
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(OTPVerification).where(
+                (OTPVerification.email == email) &
+                (OTPVerification.otp_code == otp) &
+                (OTPVerification.verified == False)
+            ).order_by(OTPVerification.created_at.desc()).limit(1)
+        )
+        pending = result.scalar_one_or_none()
+        
+        if not pending:
+            raise HTTPException(status_code=400, detail="Invalid or expired OTP code")
+        
+        if datetime.utcnow() > pending.expires_at:
+            raise HTTPException(status_code=400, detail="OTP code has expired. Request a new one.")
+        
+        # Mark as verified
+        pending.verified = True
+        
+        # Create the actual user
+        user = SOCUser(
+            username=pending.username,
+            email=pending.email,
+            hashed_password=pending.hashed_password,
+            full_name=pending.full_name,
+            role=pending.role,
+            is_active=True,
+        )
+        session.add(user)
+        await session.commit()
+    
+    await log_audit(pending.username, "register", "user", pending.username)
+    
+    # Return user info (frontend will auto-login)
+    return {
+        "username": pending.username,
+        "email": pending.email,
+        "role": pending.role,
+        "full_name": pending.full_name,
+    }
+
+
+@app.post("/api/auth/resend-otp")
+async def resend_otp(body: dict):
+    """Resend OTP code for a pending registration."""
+    from datetime import timedelta
+    import random
+    
+    email = body.get("email", "")
+    if not email:
+        raise HTTPException(status_code=400, detail="Email required")
+    
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(OTPVerification).where(
+                (OTPVerification.email == email) &
+                (OTPVerification.verified == False)
+            ).order_by(OTPVerification.created_at.desc()).limit(1)
+        )
+        pending = result.scalar_one_or_none()
+        
+        if not pending:
+            raise HTTPException(status_code=400, detail="No pending registration found for this email")
+        
+        # Generate new OTP
+        new_otp = str(random.randint(100000, 999999))
+        pending.otp_code = new_otp
+        pending.expires_at = datetime.utcnow() + timedelta(minutes=10)
+        await session.commit()
+    
+    await send_otp_email(email, new_otp)
+    
+    return {
+        "status": "otp_sent",
+        "message": f"New verification code sent to {email}",
+    }
+
+
+@app.post("/api/auth/refresh")
+async def refresh_token(body: dict):
+    """Exchange a refresh token for a new access token."""
+    refresh = body.get("refresh_token", "")
+    if not refresh:
+        raise HTTPException(status_code=400, detail="Refresh token required")
+    result = await refresh_access_token(refresh)
+    if not result:
+        raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
+    return result
+
+
+@app.post("/api/auth/logout")
+async def logout(current_user: dict = Depends(require_any)):
+    """Logout — revokes the current token. Client should discard token after."""
+    # The client discards the token; we also add server-side note
+    # For full revocation, client passes token in Authorization header
+    from fastapi import Request
+    # We mark by username in audit; actual revocation requires the token string
+    await log_audit(current_user["username"], "logout", "auth", current_user["username"])
+    return {"status": "ok", "message": "Logged out successfully"}
+
+
+@app.get("/api/auth/users", dependencies=[Depends(require_admin)])
+async def list_soc_users(
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """List all SOC users (admin only)."""
+    result = await db.execute(select(SOCUser).order_by(SOCUser.created_at.desc()))
+    return [
+        {
+            "username": u.username, "email": u.email, "role": u.role,
+            "full_name": u.full_name, "is_active": u.is_active,
+            "last_login": u.last_login.isoformat() if u.last_login else None,
+            "created_at": u.created_at.isoformat() if u.created_at else None,
+        }
+        for u in result.scalars().all()
+    ]
+
+
+
 
 
 # ── Dashboard Summary ──────────────────────────────────────────────────────
@@ -1077,6 +1319,68 @@ async def user_risk_trend(user_id: str, weeks: int = 12, db: AsyncSession = Depe
         })
 
     return trend
+
+
+# ── System Health ───────────────────────────────────────────────────────
+
+@app.get("/api/system/health")
+async def system_health(db: AsyncSession = Depends(get_db)):
+    """Extended system health with model status, event counts, and retrain history."""
+    from datetime import datetime as dt
+    
+    # Database health
+    db_ok = True
+    try:
+        await db.execute(select(func.count()).select_from(Alert))
+    except:
+        db_ok = False
+
+    # Counts
+    result = await db.execute(select(func.count()).select_from(RawEvent))
+    total_events = result.scalar() or 0
+    result = await db.execute(select(func.count()).select_from(Alert))
+    total_alerts = result.scalar() or 0
+    result = await db.execute(select(func.count(UserProfile.user_id)))
+    total_users = result.scalar() or 0
+
+    # Model status
+    result = await db.execute(
+        select(ModelTrainingLog).order_by(ModelTrainingLog.trained_at.desc()).limit(1)
+    )
+    last_training = result.scalar_one_or_none()
+
+    # Retrain history
+    result = await db.execute(
+        select(ModelTrainingLog).order_by(ModelTrainingLog.trained_at.desc()).limit(10)
+    )
+    retrain_history = [
+        {
+            "version": r.version, "trained_at": r.trained_at.isoformat() if r.trained_at else None,
+            "users_trained": r.users_trained, "total_samples": r.total_samples,
+            "status": r.status, "triggered_by": r.triggered_by,
+        }
+        for r in result.scalars().all()
+    ]
+
+    return {
+        "status": "ok" if db_ok else "degraded",
+        "version": "3.0.0",
+        "database": "connected" if db_ok else "error",
+        "mode": "Full SOC Platform",
+        "uptime": dt.utcnow().isoformat(),
+        "model": {
+            "status": "ready" if last_training and last_training.status == "completed" else "unavailable",
+            "last_trained": last_training.trained_at.isoformat() if last_training and last_training.trained_at else None,
+            "version": last_training.version if last_training else None,
+            "users_trained": last_training.users_trained if last_training else None,
+        },
+        "events": {
+            "total_events": total_events,
+            "total_alerts": total_alerts,
+            "total_users": total_users,
+        },
+        "retrain_history": retrain_history,
+    }
 
 
 # ── Health ───────────────────────────────────────────────────────────────

@@ -1,14 +1,16 @@
 """
 Notification module for sending alerts via Email, Slack, and Teams.
 
-Supports configurable channels and minimum severity thresholds.
-In production, this would integrate with actual SMTP/Slack API/Teams webhook.
-For the demo, it logs notifications and provides the framework.
+ALL connection settings come from environment variables (loaded via .env).
+No secrets are hardcoded.
 """
 
+import asyncio
 import json
 import os
 import logging
+import smtplib
+from email.mime.text import MIMEText
 from datetime import datetime
 from typing import Optional
 
@@ -20,8 +22,28 @@ from models import NotificationConfig, NotificationLog
 
 logger = logging.getLogger(__name__)
 
+# ── All SMTP settings from env ───────────────────────────────────────────
+SMTP_HOST = os.environ.get("SMTP_HOST", "")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
+SMTP_USERNAME = os.environ.get("SMTP_USERNAME", "")
+SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
+SMTP_FROM = os.environ.get("SMTP_FROM", "noreply@soc.local")
 
 SEVERITY_ORDER = {"Low": 0, "Medium": 1, "High": 2, "Critical": 3}
+
+
+async def send_otp_email(recipient: str, otp_code: str) -> bool:
+    """Send an OTP verification email using configured SMTP."""
+    subject = "ThreatWatch — Your OTP Verification Code"
+    message = (
+        f"Welcome to ThreatWatch SOC Platform!\n\n"
+        f"Your one-time verification code is:\n\n"
+        f"   {otp_code}\n\n"
+        f"This code expires in 10 minutes.\n\n"
+        f"If you didn't request this, please ignore this email.\n"
+        f"— ThreatWatch Security Team"
+    )
+    return await send_email_notification(recipient, subject, message)
 
 
 async def get_enabled_channels(min_severity: str = "High") -> list[dict]:
@@ -43,17 +65,38 @@ async def get_enabled_channels(min_severity: str = "High") -> list[dict]:
         ]
 
 
+def _send_smtp_sync(recipient: str, subject: str, message: str) -> bool:
+    """Synchronous SMTP send (called via run_in_executor)."""
+    if not SMTP_HOST or not SMTP_USERNAME:
+        logger.warning(f"SMTP not configured. Set SMTP_HOST/SMTP_USERNAME/SMTP_PASSWORD in .env "
+                       f"to send real emails. Email to {recipient} was NOT sent.")
+        return False
+    try:
+        msg = MIMEText(message, "plain")
+        msg["Subject"] = subject
+        msg["From"] = SMTP_FROM
+        msg["To"] = recipient
+
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USERNAME, SMTP_PASSWORD)
+            server.send_message(msg)
+        return True
+    except Exception as e:
+        logger.error(f"SMTP send failed to {recipient}: {e}")
+        return False
+
+
 async def send_email_notification(
     recipient: str,
     subject: str,
     message: str,
     alert_id: Optional[str] = None,
 ) -> bool:
-    """Send an email notification (stub — logs instead of sending)."""
+    """Send an email notification via SMTP (configured via .env)."""
     logger.info(f"[EMAIL] To: {recipient}, Subject: {subject}")
-    # In production: use smtplib or SendGrid/Mailgun API
-    # For demo, we just log the notification
-    return True
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, _send_smtp_sync, recipient, subject, message)
 
 
 async def send_slack_notification(

@@ -338,6 +338,22 @@ class MITREMapping(Base):
 
 # ── Model Retraining ───────────────────────────────────────────────────────
 
+class OTPVerification(Base):
+    """Store pending registrations with OTP codes for email verification."""
+    __tablename__ = "otp_verifications"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String(100), nullable=False, index=True)
+    otp_code = Column(String(6), nullable=False)
+    username = Column(String(50), nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    full_name = Column(String(100), nullable=True)
+    role = Column(String(20), default="Analyst")
+    expires_at = Column(DateTime, nullable=False)
+    verified = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 class ModelTrainingLog(Base):
     __tablename__ = "model_training_logs"
 

@@ -224,3 +224,159 @@ export interface DepartmentStats {
   avg_risk_score: number;
   total_alerts: number;
 }
+
+// ── Auth ──────────────────────────────────────────────────────────────────
+
+export interface AuthUser {
+  token: string;
+  username: string;
+  role: 'Admin' | 'Analyst' | 'Viewer';
+  full_name: string | null;
+}
+
+export interface SOCUser {
+  username: string;
+  email: string;
+  role: string;
+  full_name: string | null;
+  is_active: boolean;
+  last_login: string | null;
+  created_at: string;
+}
+
+// ── Cases ─────────────────────────────────────────────────────────────────
+
+export interface InvestigationCase {
+  case_id: string;
+  title: string;
+  description: string | null;
+  user_id: string;
+  alert_ids: string[];
+  status: string;
+  severity: string;
+  assigned_to: string | null;
+  created_by: string;
+  evidence_count?: number;
+  created_at: string;
+  updated_at: string;
+  closed_at: string | null;
+  resolution: string | null;
+}
+
+export interface CaseEvidenceItem {
+  id: number;
+  title: string;
+  description: string | null;
+  evidence_type: string;
+  content: any;
+  added_by: string;
+  created_at: string;
+}
+
+export interface CaseDetail {
+  case_id: string;
+  title: string;
+  description: string | null;
+  user_id: string;
+  alert_ids: string[];
+  status: string;
+  severity: string;
+  assigned_to: string | null;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  closed_at: string | null;
+  resolution: string | null;
+  evidence: CaseEvidenceItem[];
+}
+
+// ── Notifications ─────────────────────────────────────────────────────────
+
+export interface NotificationConfig {
+  id: number;
+  channel: string;
+  enabled: boolean;
+  min_severity: string;
+  config: Record<string, any>;
+}
+
+export interface NotificationLog {
+  id: number;
+  channel: string;
+  alert_id: string | null;
+  recipient: string | null;
+  subject: string | null;
+  sent_at: string;
+  status: string;
+  error_message: string | null;
+}
+
+// ── System Health ─────────────────────────────────────────────────────────
+
+export interface SystemHealth {
+  status: string;
+  version: string;
+  database: string;
+  mode: string;
+  uptime: string;
+  model: {
+    status: string;
+    last_trained: string | null;
+    version: number | null;
+    users_trained: number | null;
+  };
+  events: {
+    total_events: number;
+    total_alerts: number;
+    total_users: number;
+  };
+  retrain_history: {
+    version: number;
+    trained_at: string;
+    users_trained: number;
+    total_samples: number;
+    status: string;
+  }[];
+}
+
+// ── Audit Log ─────────────────────────────────────────────────────────────
+
+export interface AuditLogEntry {
+  id: number;
+  timestamp: string;
+  username: string;
+  action: string;
+  resource_type: string | null;
+  resource_id: string | null;
+  details: any;
+  ip_address: string | null;
+}
+
+export interface ModelTrainingLog {
+  version: number;
+  trained_at: string;
+  users_trained: number | null;
+  total_samples: number | null;
+  contamination: number;
+  triggered_by: string;
+  status: string;
+}
+
+export interface AlertComment {
+  id: number;
+  author: string;
+  comment: string;
+  created_at: string;
+}
+
+export interface AlertDetail extends Alert {
+  status: string;
+  assigned_to: string | null;
+  acknowledged: boolean;
+  acknowledged_by: string | null;
+  resolution_notes: string | null;
+  comments: AlertComment[];
+  timeline_events: any[];
+  created_at: string;
+  resolved_at: string | null;
+}

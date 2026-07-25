@@ -8,10 +8,10 @@ import {
   ArrowLeft, User, Building2, Calendar, Shield, Activity,
   CheckCircle, FileText, Download, Usb, UploadCloud, LogIn,
   ExternalLink, AlertTriangle, Brain, TrendingUp, Lock,
-  Zap, Target, Eye, Flag,
+  Zap, Target, Eye, Flag, XCircle, MessageSquare, FolderOpen,
 } from 'lucide-react';
 import { api } from '../api/client';
-import type { Alert, TimelineDay, UserInfo, AiInsights, InvestigationSummary } from '../types';
+import type { AlertDetail as AlertDetailType, TimelineDay, UserInfo, AiInsights, InvestigationSummary, AlertComment } from '../types';
 import SeverityBadge from '../components/SeverityBadge';
 
 const EvidenceIcon = ({ label }: { label: string }) => {
@@ -56,14 +56,17 @@ const SEVERITY_COLORS = {
 export default function AlertDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [alert, setAlert] = useState<Alert | null>(null);
+  const [alert, setAlert] = useState<AlertDetailType | null>(null);
   const [timeline, setTimeline] = useState<TimelineDay[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [aiInsights, setAiInsights] = useState<AiInsights | null>(null);
   const [loading, setLoading] = useState(true);
-  const [acknowledging, setAcknowledging] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [caseSummary, setCaseSummary] = useState<InvestigationSummary | null>(null);
   const [expandedSection, setExpandedSection] = useState<string>('reasons');
+  const [newComment, setNewComment] = useState('');
+  const [submittingComment, setSubmittingComment] = useState(false);
+  const [caseCreated, setCaseCreated] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -97,16 +100,53 @@ export default function AlertDetail() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const handleAcknowledge = async () => {
+  const handleAction = async (status: string) => {
     if (!alert) return;
-    setAcknowledging(true);
+    setUpdating(true);
     try {
-      await api.acknowledgeAlert(alert.alert_id);
-      setAlert({ ...alert, acknowledged: true });
+      let assignedTo: string | undefined;
+      let resolutionNotes: string | undefined;
+      if (status === 'Investigating') {
+        assignedTo = prompt('Assign to (username):') || undefined;
+      }
+      if (status === 'Resolved' || status === 'False Positive') {
+        resolutionNotes = prompt('Resolution notes:') || undefined;
+      }
+      await api.updateAlertStatus(alert.alert_id, status, assignedTo, resolutionNotes);
+      // Re-fetch alert
+      const updated = await api.getAlert(alert.alert_id);
+      setAlert(updated);
     } catch (e) {
       console.error(e);
     }
-    setAcknowledging(false);
+    setUpdating(false);
+  };
+
+  const handleAddComment = async () => {
+    if (!alert || !newComment.trim()) return;
+    setSubmittingComment(true);
+    try {
+      await api.addAlertComment(alert.alert_id, newComment.trim());
+      setNewComment('');
+      // Re-fetch to get new comment
+      const updated = await api.getAlert(alert.alert_id);
+      setAlert(updated);
+    } catch (e) { console.error(e); }
+    setSubmittingComment(false);
+  };
+
+  const handleCreateCase = async () => {
+    if (!alert) return;
+    const title = prompt('Case title:', `Investigation - ${alert.alert_id} - ${alert.user_id}`);
+    if (!title) return;
+    setUpdating(true);
+    try {
+      await api.createCase(title, alert.user_id, [alert.alert_id]);
+      setCaseCreated(true);
+    } catch (e) {
+      console.error(e);
+    }
+    setUpdating(false);
   };
 
   const chartData = useMemo(() => {
@@ -218,17 +258,38 @@ export default function AlertDetail() {
               </div>
               <div className="text-xs text-slate-500">ML Score</div>
             </div>
-            {!alert.acknowledged && (
-              <button
-                onClick={handleAcknowledge}
-                disabled={acknowledging}
-                className="btn-primary text-sm"
-              >
-                {acknowledging ? '...' : 'Acknowledge'}
-              </button>
-            )}
+            <div className="text-center">
+              <div className="text-sm font-bold text-slate-300">
+                {alert.status || 'Open'}
+              </div>
+              <div className="text-xs text-slate-500">Status</div>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className="flex flex-wrap gap-2">
+        {alert.status !== 'Acknowledged' && (
+          <button onClick={() => handleAction('Acknowledged')} disabled={updating} className="btn-primary text-xs flex items-center gap-1.5">
+            <CheckCircle size={13} /> Acknowledge
+          </button>
+        )}
+        <button onClick={() => handleAction('Investigating')} disabled={updating} className="btn-secondary text-xs flex items-center gap-1.5">
+          <Activity size={13} /> Investigate
+        </button>
+        <button onClick={() => handleAction('Escalated')} disabled={updating} className="btn-secondary text-xs flex items-center gap-1.5">
+          <AlertTriangle size={13} /> Escalate
+        </button>
+        <button onClick={() => handleAction('Resolved')} disabled={updating} className="btn-secondary text-xs flex items-center gap-1.5">
+          <CheckCircle size={13} /> Resolve
+        </button>
+        <button onClick={() => handleAction('False Positive')} disabled={updating} className="btn-secondary text-xs flex items-center gap-1.5">
+          <XCircle size={13} /> False Positive
+        </button>
+        <button onClick={handleCreateCase} disabled={updating || caseCreated} className="btn-secondary text-xs flex items-center gap-1.5">
+          <FolderOpen size={13} /> {caseCreated ? 'Case Created' : 'Create Case'}
+        </button>
       </div>
 
       {/* Tab navigation */}
@@ -327,6 +388,41 @@ export default function AlertDetail() {
             ) : (
               <p className="text-sm text-slate-500">No detailed explanations available.</p>
             )}
+          </div>
+
+          {/* Comments section */}
+          <div className="card p-5">
+            <h3 className="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+              <MessageSquare size={16} className="text-blue-400" />
+              Investigation Comments
+            </h3>
+            <div className="space-y-3 mb-4">
+              {(alert as any).comments?.length > 0 ? (
+                (alert as any).comments.map((c: AlertComment, idx: number) => (
+                  <div key={c.id || idx} className="rounded-lg bg-slate-800/30 border border-slate-800 p-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-medium text-slate-300">{c.author}</span>
+                      <span className="text-[10px] text-slate-500">{c.created_at?.slice(0, 16)?.replace('T', ' ')}</span>
+                    </div>
+                    <p className="text-sm text-slate-300">{c.comment}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-slate-500">No comments yet.</p>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <input
+                value={newComment}
+                onChange={e => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="input-field flex-1 text-sm"
+                onKeyDown={e => e.key === 'Enter' && handleAddComment()}
+              />
+              <button onClick={handleAddComment} disabled={submittingComment || !newComment.trim()} className="btn-primary text-sm">
+                {submittingComment ? '...' : 'Send'}
+              </button>
+            </div>
           </div>
 
           {/* User info */}

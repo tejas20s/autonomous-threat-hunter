@@ -42,9 +42,18 @@ flowchart LR
 | **Per-User Behavioral Baseline** | Learns what "normal" means for each employee individually |
 | **Low False-Positive Design** | 4 explicit control layers — no unexplained alerts |
 | **Real-Time SSE Monitoring** | Alerts stream instantly without page refresh |
-| **Full Investigation Workflow** | Open → Investigating → Resolved / False Positive |
+| **Full Investigation Workflow** | Open → Acknowledged → Investigating → Resolved / False Positive |
 | **Case Management** | Group alerts, add evidence, track investigations |
 | **MITRE ATT&CK Mapping** | Maps every alert to real-world attack techniques |
+| **JWT Login & Registration** 🚪 | Professional login page, self-registration for analysts, auto-login after signup |
+| **OTP Email Verification** 📧 | 6-digit OTP sent via SMTP on registration — account created only after verification |
+| **Passwordless OTP Flow** 🔐 | Registration sends OTP to company email, 10-minute timer, resend support |
+| **Route Protection** 🔒 | All pages protected — unauthenticated users redirected to login |
+| **Case Management UI** 📋 | Convert alerts to cases, add evidence, track investigation status |
+| **Alert Action Workflow** ⚡ | Acknowledge, Investigate, Escalate, Resolve, or mark as False Positive |
+| **Admin Dashboard** 🔧 | Create users, view audit logs, trigger AI model retraining |
+| **Notification Settings** 🔔 | Configure Email/Slack/Teams alert channels |
+| **System Health** ❤️ | Real-time API, database, and AI model status monitoring |
 | **RBAC** | Admin, Analyst, and Viewer roles with JWT auth |
 | **Audit Logging** | Every analyst action is recorded |
 | **CSV Report Generation** | Export alerts, cases, timelines, audit logs |
@@ -131,6 +140,16 @@ Each triggered rule shows: **Feature → Z-score → Weight → Contribution →
 | 22 | Audit logging | `auth.py` + `AuditLog` model | ✅ Backend |
 | 23 | Docker deployment | `docker-compose.yml` + 3 Dockerfiles | ✅ Full Stack |
 | 24 | **Unit & API tests** | `tests/test_detection.py`, `test_api.py` | ✅ 29 Tests |
+| 25 | **JWT Login & Registration** 🚪 | `auth.py` + Login/Register pages | ✅ Full Stack |
+| 26 | **OTP Email Verification** 📧 | `OTPVerification` model + `/verify-otp` endpoint | ✅ Full Stack |
+| 27 | **Route Protection & RBAC UI** 🔒 | `ProtectedRoute` + role-based sidebar | ✅ Full Stack |
+| 28 | **Case Management UI** 📋 | `Cases.tsx` + `CaseDetail.tsx` with evidence | ✅ Full Stack |
+| 29 | **Alert Action Workflow** ⚡ | Acknowledge, Investigate, Escalate, Resolve, FP | ✅ Full Stack |
+| 30 | **Admin Dashboard** 🔧 | User mgmt, audit logs, model retrain | ✅ Full Stack |
+| 31 | **Notification Settings** 🔔 | Email/Slack/Teams channel config | ✅ Full Stack |
+| 32 | **System Health** ❤️ | API/DB/Model status, event metrics | ✅ Full Stack |
+| 33 | **SMTP Real Email** 📬 | Real `smtplib` sending via `.env` config (SMTP_HOST/USERNAME/PASSWORD) | ✅ Backend |
+| 34 | **All Config via .env** 🔑 | Zero hardcoded secrets — JWT, SMTP, DB, admin all from `.env` file | ✅ Full Stack |
 
 ---
 
@@ -145,7 +164,7 @@ threat/
 │   ├── app/
 │   │   ├── main.py               # FastAPI SOC API (50+ endpoints)
 │   │   ├── database.py           # Database connection (PostgreSQL/SQLite)
-│   │   ├── models.py             # 18 ORM models for all SOC features
+│   │   ├── models.py             # 19 ORM models for all SOC features
 │   │   ├── generator.py          # Log simulation engine
 │   │   ├── features.py           # Feature extraction
 │   │   ├── baseline.py           # Per-user behavioral baseline
@@ -181,10 +200,34 @@ threat/
 │       ├── main.tsx              # App entry point
 │       ├── index.css             # Global styles
 │       ├── types.ts              # TypeScript type definitions
-│       ├── App.tsx               # Route definitions (10 pages)
-│       ├── pages/                # 10 route pages
+│       ├── App.tsx               # Route definitions (17 routes)
+│       ├── contexts/
+│       │   └── AuthContext.tsx    # JWT auth state management
+│       ├── pages/                # 17 route pages
+│       │   ├── Login.tsx         # Login page (email + password)
+│       │   ├── Register.tsx      # Registration with OTP verification
+│       │   ├── Dashboard.tsx     # Main SOC dashboard
+│       │   ├── Alerts.tsx        # Alert queue
+│       │   ├── AlertDetail.tsx   # Alert investigation
+│       │   ├── Users.tsx         # Users directory
+│       │   ├── UserDetail.tsx    # User investigation
+│       │   ├── BehaviorBaselineComparison.tsx  # Baseline vs today
+│       │   ├── Cases.tsx         # Case management
+│       │   ├── CaseDetail.tsx    # Case detail with evidence
+│       │   ├── Departments.tsx   # Department stats
+│       │   ├── AttackSimulator.tsx  # Interactive attack sim
+│       │   ├── ExecutiveDashboard.tsx  # Org-wide KPIs
+│       │   ├── DetectionPerformance.tsx  # AI metrics
+│       │   ├── Admin.tsx         # Admin panel
+│       │   ├── NotificationSettings.tsx  # Channel config
+│       │   └── SystemHealth.tsx  # System status
 │       ├── components/           # Reusable UI components
-│       └── api/client.ts         # API client methods
+│       │   ├── Layout.tsx        # Sidebar + topbar
+│       │   ├── FilterBar.tsx     # Alert filters
+│       │   ├── SeverityBadge.tsx # Severity indicator
+│       │   └── StatsCard.tsx     # KPI card
+│       └── api/client.ts         # API client with auth + refresh
+├── .gitignore                    # Git ignore rules
 ├── docker-compose.yml            # Full stack orchestration
 └── README.md
 ```
@@ -278,9 +321,16 @@ npm run dev
 ### Authentication & RBAC
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/auth/login` | Login (returns JWT) |
-| GET | `/api/auth/me` | Current user info |
+| POST | `/api/auth/login` | Login (returns JWT token) |
+| POST | `/api/auth/register` | Step 1: Register — sends OTP to email (no account created yet) |
+| POST | `/api/auth/verify-otp` | Step 2: Verify OTP — creates account on successful verification |
+| POST | `/api/auth/resend-otp` | Resend OTP for pending registration |
+| POST | `/api/auth/refresh` | Refresh expired JWT token |
+| POST | `/api/auth/logout` | Logout (revokes token) |
+| GET | `/api/auth/me` | Current user info (token required) |
 | POST | `/api/auth/users` | Create user (Admin only) |
+| GET | `/api/auth/users` | List all SOC users (Admin only) |
+| GET | `/api/system/health` | Extended system health (model, events, retrain history) |
 
 ### Analytics
 | Method | Endpoint | Description |
@@ -314,16 +364,23 @@ npm run dev
 
 | Page | Route | Features |
 |---|---|---|
-| **Dashboard** | `/` | Stats cards, severity pie/bar charts, risk trend line chart, quick links to Executive & Performance, recent alerts table |
-| **Attack Simulator** ⭐ | `/simulator` | **5 attack buttons** (Login, USB, Data Exfiltration, Sensitive Access, Combined), real-time simulation log, live result panel with MITRE ATT&CK, risk score, and triggers |
+| **Login** 🆕 | `/login` | Email + password login, JWT auth, redirect to dashboard on success |
+| **Register** 🆕 | `/register` | **2-step OTP flow**: fill details → OTP sent to email → 6-digit verification → auto-login |
+| **Dashboard** | `/` | Stats cards, severity pie/bar charts, risk trend line chart, recent alerts table |
+| **Attack Simulator** ⭐ | `/simulator` | **5 attack buttons** (Login, USB, Data Exfiltration, Sensitive Access, Combined), real-time simulation log with MITRE ATT&CK mapping |
+| **Cases** 🆕 | `/cases` | Case list with status filters, search, **create case** modal linking alerts |
+| **Case Detail** 🆕 | `/cases/:id` | Evidence management, status workflow (Open/Investigating/Resolved/FP), analyst comments |
+| **Admin Dashboard** 🆕 | `/admin` | **Create SOC users**, view audit logs, trigger AI model retraining |
+| **Notification Settings** 🆕 | `/notifications` | Add Email/Slack/Teams channels, configure severity thresholds |
+| **System Health** 🆕 | `/health` | API status, DB connection, AI model status, event counts, retrain history |
 | **Alert Queue** | `/alerts` | Search, severity/dept/status filters, ranked alert cards, risk bars |
-| **Alert Investigation** 🆕 | `/alerts/:id` | **Tabbed interface**: Reasons & Evidence → Score Breakdown → Recommended Actions → Risk Timeline. Includes AI confidence badge, score decomposition pie chart, attack profile indicators, investigation summary panel |
+| **Alert Investigation** 🆕 | `/alerts/:id` | **Tabbed interface**: Reasons → Score Breakdown → Actions → Timeline. AI confidence, score breakdown, attack profile |
 | **Users Directory** | `/users` | Department-grouped grid, search, alert counts |
-| **User Investigation** 🆕 | `/users/:id` | Risk area chart, file activity bar chart, transfer/USB chart, **weekly risk trend AreaChart**, alert history, behavior profile, **baseline comparison button** |
-| **Behavioral Baseline Comparison** 🆕 | `/users/:id/baseline` | **Side-by-side comparison** of 11 behavioral features: normal mean/std vs today's value with z-scores, horizontal bar chart, deviation alerts, color-coded severity indicators |
-| **Executive Dashboard** 🆕 | `/executive` | **Org-wide KPI cards**, department risk comparison chart, severity pie, department breakdown table, top 10 risky employees ranked |
-| **Detection Performance** 🆕 | `/performance` | **AI metrics dashboard**: precision, recall, F1-score, false positive rate, detection latency, confusion matrix bar chart, performance gauges, missed scenarios list |
-| **Departments** | `/departments` | Per-dept cards, severity pie chart, bar charts, comparison table |
+| **User Investigation** 🆕 | `/users/:id` | Risk chart, file activity, transfer/USB, weekly risk trend, behavior profile, baseline comparison |
+| **Baseline Comparison** 🆕 | `/users/:id/baseline` | **11 features** compared: normal vs today with z-scores, color-coded severity |
+| **Executive Dashboard** 🆕 | `/executive` | KPI cards, department risk comparison, top 10 risky employees |
+| **Detection Performance** 🆕 | `/performance` | Precision, recall, F1, FP rate, confusion matrix, missed scenarios |
+| **Departments** | `/departments` | Per-dept cards, severity charts, comparison table |
 
 ---
 
@@ -530,17 +587,33 @@ pytest tests/test_api.py -v             # 10 API integration tests
 
 ## ⚙️ Configuration
 
-Key configuration options (set as environment variables):
+All configuration comes from a single `backend/.env` file. **Zero hardcoded secrets in the code.**
 
 ```env
-DATABASE_URL=sqlite+aiosqlite:///path/to/threat.db   # Default: local SQLite
-# For PostgreSQL:
+# ── REQUIRED ─────────────────────────────────────────────────
+# Generate with: python -c "import secrets; print(secrets.token_hex(32))"
+JWT_SECRET_KEY=
+
+# Set a strong password for the default admin account
+DEFAULT_ADMIN_PASSWORD=
+DEFAULT_ADMIN_NAME=
+
+# ── Database ──────────────────────────────────────────────────
+# Default: local SQLite file. Uncomment for PostgreSQL:
 # DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/insider_threat
 
-JWT_SECRET_KEY=your-random-secret-here
-SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
-RETRAIN_INTERVAL_HOURS=24
+# ── SMTP Email (optional — for OTP + alert notifications) ────
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USERNAME=your-email@gmail.com
+# SMTP_PASSWORD=your-app-password
+# SMTP_FROM=noreply@soc.local
+
+# ── CORS (optional) ──────────────────────────────────────────
+# CORS_ORIGINS=http://localhost:5173,http://localhost:3000,http://localhost:80
 ```
+
+**Important:** Edit `backend/.env` directly and fill in your values. The `.env` file is gitignored and will not be committed. No `.env.example` needed.
 
 ---
 
