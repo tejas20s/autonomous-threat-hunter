@@ -1,0 +1,22 @@
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY app/ ./app/
+
+# Add app directory to Python path so 'from database import ...' works
+ENV PYTHONPATH=/app/app
+
+# Run pipeline on container start, then exit
+# Use -m flag so it searches PYTHONPATH (file path won't work)
+CMD ["python", "-m", "run_pipeline"]

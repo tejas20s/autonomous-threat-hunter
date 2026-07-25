@@ -1,0 +1,14 @@
+{
+  "total_user_days_analyzed": 1560,
+  "total_alerts": 101,
+  "severity_counts": {
+    "Low": 1459,
+    "Medium": 91,
+    "High": 8,
+    "Critical": 2
+  },
+  "users_monitored": 26,
+  "days_covered": 60,
+  "injected_scenarios": 7,
+  "injected_scenarios_caught_high_or_critical": 2
+}

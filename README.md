@@ -1,0 +1,534 @@
+# Autonomous Threat Hunter for Insider Attacks
+
+**A complete SOC (Security Operations Center) insider threat detection platform** with AI-powered anomaly detection, real-time monitoring, behavioral baseline comparison, case management, executive dashboard, and full investigation workflows.
+
+```mermaid
+flowchart LR
+    subgraph Pipeline
+        A["Log Simulator<br/>generator.py"] --> B["Feature Extractor<br/>features.py"]
+        B --> C["Behavioral Baseline<br/>baseline.py"]
+        B --> D["Isolation Forest<br/>model.py"]
+        C --> E["Risk Scorer<br/>model.py"]
+        D --> E
+    end
+    E --> F[("PostgreSQL<br/>Database")]
+    F --> G["FastAPI Backend<br/>SOC API v3.0"]
+    G --> H["React Dashboard<br/>SOC Portal"]
+    G --> I[("SSE Real-time<br/>Stream")]
+    K["Attack Simulator<br/>attack_simulator.py"] --> G
+    G --> J[("CSV Reports")]
+    G --> L["AI Insights<br/>ai-insights endpoint"]
+    G --> M["Detection Metrics<br/>detection-performance"]
+    H --> N["/users/:id/baseline<br/>Baseline Comparison"]
+    H --> O["/executive<br/>Executive Dashboard"]
+    H --> P["/performance<br/>Detection Performance"]
+```
+
+---
+
+## 🏆 What Makes This Stand Out
+
+| Feature | Why It Matters |
+|---|---|
+| **Interactive Attack Simulator** ⭐ | Click a button to simulate a real insider threat — watch detection happen in real-time |
+| **Behavioral Baseline Comparison** 🧬 | Compare any employee's behavior TODAY vs their NORMAL — shows exactly what's abnormal |
+| **AI Confidence Scoring** 🤖 | Every alert gets an AI confidence score (High/Medium/Low) with full risk score breakdown |
+| **Recommended Actions** ⚡ | Context-aware remediation: "Lock account", "Disable USB", "Block external transfers" |
+| **Executive Dashboard** 📊 | Org-wide view: department risk, top risky employees, severity trends for managers |
+| **Detection Performance Metrics** 🎯 | Precision, recall, F1-score, false-positive rate computed against ground truth |
+| **Investigation Summary** 📋 | Complete case report: employee, attack type, evidence, AI explanations, analyst actions |
+| **Weekly Risk Trend** 📈 | See how an employee's risk evolves week-over-week (up/down/stable) |
+| **Unsupervised ML Detection** | Isolation Forest catches anomalies no rule could find |
+| **Per-User Behavioral Baseline** | Learns what "normal" means for each employee individually |
+| **Low False-Positive Design** | 4 explicit control layers — no unexplained alerts |
+| **Real-Time SSE Monitoring** | Alerts stream instantly without page refresh |
+| **Full Investigation Workflow** | Open → Investigating → Resolved / False Positive |
+| **Case Management** | Group alerts, add evidence, track investigations |
+| **MITRE ATT&CK Mapping** | Maps every alert to real-world attack techniques |
+| **RBAC** | Admin, Analyst, and Viewer roles with JWT auth |
+| **Audit Logging** | Every analyst action is recorded |
+| **CSV Report Generation** | Export alerts, cases, timelines, audit logs |
+| **Docker Deployment** | One-command setup with Docker Compose |
+| **Unit & API Tests** | 20+ tests across detection and API layers |
+
+---
+
+## 🧠 Detection Engine
+
+### Two-Signal Blend
+
+| Component | Weight | What It Catches |
+|---|---|---|
+| **Isolation Forest** (ML) | 40% | Weird combinations of features — statistical oddities |
+| **Rule-based deviation** | 60% | Concrete violations: first-time USB, after-hours login, exfiltration |
+
+**Blend:** `risk_score = 0.4 × IF_percentile + 0.6 × rule_score`
+
+### AI Confidence Classification
+
+Every alert goes through an AI confidence assessment based on how many independent signals agree:
+
+| Confidence | Criteria | Meaning |
+|---|---|---|
+| **High** (92%) | IF ≥ 70 + 3+ strong rules (z ≥ 2.5) | Multiple independent signals strongly agree |
+| **Medium-High** (78%) | IF ≥ 60 + 1+ strong rule | Strong agreement with evidence |
+| **Medium** (60%) | IF ≥ 40 or 2+ moderate rules | Some signals present |
+| **Low** (35%) | Few or weak signals | Low confidence — may need review |
+
+### Severity Bands
+
+| Score | Severity | Action |
+|---|---|---|
+| ≥ 80 | **Critical** 🛑 | Immediate investigation |
+| 60–79 | **High** ⚠️ | Escalate |
+| 40–59 | **Medium** 🔶 | Review |
+| < 40 | **Low** 🟢 | Logged only |
+
+### False-Positive Controls
+
+1. **Baseline min days** — New users capped at 35 max
+2. **Z-score + absolute delta** — Both statistical AND operational thresholds
+3. **No-explanation cap** — Every Medium+ alert must be explainable
+4. **Std floor** — Prevents runaway z-scores on low-variance features
+
+### Score Breakdown
+
+The AI Insights endpoint decomposes every alert into its constituent signals:
+
+```
+Total Risk Score = IF Contribution (40%) + Rule Contribution (60%) + Unquantified
+```
+
+Each triggered rule shows: **Feature → Z-score → Weight → Contribution → % of Total**
+
+---
+
+## 📋 All 23 SOC Features Implemented ✅
+
+| # | Feature | Module | Status |
+|---|---|---|---|
+| 1 | **Interactive Attack Simulator** ⭐ | `attack_simulator.py` + `/simulator` page | ✅ Full Stack |
+| 2 | **Behavioral Baseline Comparison** 🧬 | `baseline-comparison` endpoint + `/users/:id/baseline` page | ✅ Full Stack |
+| 3 | **AI Confidence + Score Breakdown** 🤖 | `ai-insights` endpoint + enhanced AlertDetail page | ✅ Full Stack |
+| 4 | **Recommended Actions** ⚡ | `ai-insights` endpoint with per-feature action mapping | ✅ Full Stack |
+| 5 | **Executive Dashboard** 📊 | `executive/summary` endpoint + `/executive` page | ✅ Full Stack |
+| 6 | **Detection Performance** 🎯 | `detection-performance` endpoint + `/performance` page | ✅ Full Stack |
+| 7 | **Investigation Summary** 📋 | `cases/{id}/summary` endpoint + AlertDetail panel | ✅ Full Stack |
+| 8 | **Weekly Risk Trend** 📈 | `users/{id}/risk-trend` endpoint + UserDetail chart | ✅ Full Stack |
+| 9 | Real-time monitoring (SSE) | `websocket_manager.py` | ✅ Backend |
+| 10 | Role-Based Access Control | `auth.py` + JWT | ✅ Backend |
+| 11 | Alert investigation workflow | `main.py` alert status | ✅ Backend |
+| 12 | Notifications (Email/Slack/Teams) | `notifications.py` | ✅ Backend |
+| 13 | Threat Intelligence (IP/GeoIP) | `threat_intel.py` | ✅ Backend |
+| 14 | MITRE ATT&CK mapping | `mitre_attack.py` | ✅ Backend |
+| 15 | Employee risk history & trends | `analytics.py` + timeline | ✅ Backend |
+| 16 | Behavior profile page | `main.py` /profile endpoint | ✅ Backend |
+| 17 | Interactive attack timeline | `models.py` AttackTimelineEvent | ✅ Backend |
+| 18 | Advanced dashboard analytics | `analytics.py` (6 endpoints) | ✅ Backend |
+| 19 | Case management | `case_manager.py` | ✅ Backend |
+| 20 | Model retraining | `retrain.py` | ✅ Backend |
+| 21 | Report generation (CSV) | `report_generator.py` | ✅ Backend |
+| 22 | Audit logging | `auth.py` + `AuditLog` model | ✅ Backend |
+| 23 | Docker deployment | `docker-compose.yml` + 3 Dockerfiles | ✅ Full Stack |
+| 24 | Unit & API tests | `tests/test_detection.py`, `test_api.py` | ✅ 20+ Tests |
+
+---
+
+## 🏗️ Architecture
+
+```
+threat/
+├── backend/
+│   ├── Dockerfile                # FastAPI container
+│   ├── Dockerfile.pipeline       # Pipeline runner container
+│   ├── requirements.txt          # Python dependencies
+│   ├── app/
+│   │   ├── main.py               # FastAPI SOC API (50+ endpoints)
+│   │   ├── database.py           # Database connection (PostgreSQL/SQLite)
+│   │   ├── models.py             # 18 ORM models for all SOC features
+│   │   ├── generator.py          # Log simulation engine
+│   │   ├── features.py           # Feature extraction
+│   │   ├── baseline.py           # Per-user behavioral baseline
+│   │   ├── model.py              # Isolation Forest + rule detection
+│   │   ├── run_pipeline.py       # Pipeline orchestrator
+│   │   ├── auth.py               # RBAC (JWT, Admin/Analyst/Viewer)
+│   │   ├── websocket_manager.py  # Real-time SSE streaming
+│   │   ├── case_manager.py       # Investigation case management
+│   │   ├── mitre_attack.py       # MITRE ATT&CK technique mapping
+│   │   ├── notifications.py      # Email/Slack/Teams alerts
+│   │   ├── threat_intel.py       # IP reputation & GeoIP enrichment
+│   │   ├── analytics.py          # Advanced analytics + performance metrics
+│   │   ├── retrain.py            # Model retraining & scheduling
+│   │   ├── report_generator.py   # CSV export reports
+│   │   ├── attack_simulator.py   # Real-time attack simulation engine
+│   ├── tests/
+│   │   ├── test_detection.py     # 15 unit tests for detection pipeline
+│   │   └── test_api.py           # API integration tests
+│   └── output/                   # JSON output files
+├── dashboard/
+│   ├── Dockerfile                # Nginx container for built dashboard
+│   ├── nginx.conf                # Nginx config (SPA routing + API proxy)
+│   └── src/                      # React app (Vite + Tailwind + Recharts)
+│       ├── pages/                # 13 route pages
+│       ├── components/           # Reusable UI components
+│       └── api/client.ts         # 20+ API client methods
+├── docker-compose.yml            # Full stack orchestration
+├── .env.example                  # Environment template
+└── README.md
+```
+
+---
+
+## 🚀 Quick Start
+
+### Option 1: Docker (Recommended)
+
+```bash
+# Clone and start everything
+docker compose up --build
+```
+
+This starts:
+- **PostgreSQL** database on port 5432
+- **Pipeline** generates data then exits
+- **Backend API** on port 8000
+- **Dashboard** on port 80
+
+### Option 2: Local Development
+
+```bash
+# Backend
+cd backend
+pip install -r requirements.txt
+python app/run_pipeline.py
+uvicorn app.main:app --reload --port 8000
+
+# Dashboard (separate terminal)
+cd dashboard
+npm install
+npm run dev
+```
+
+---
+
+## 🔌 API Endpoints (50+)
+
+### Core Detection
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/dashboard/summary` | Aggregate stats & severity counts |
+| GET | `/api/alerts` | Filterable alert queue |
+| GET | `/api/alerts/{id}` | Alert detail with comments & timeline |
+| PATCH | `/api/alerts/{id}/status` | Update alert status (investigation workflow) |
+| POST | `/api/alerts/{id}/comments` | Add investigation comment |
+| GET | `/api/users` | List monitored users |
+| GET | `/api/users/{id}` | User profile with baseline info |
+| GET | `/api/users/{id}/timeline` | Daily risk scores |
+| GET | `/api/users/{id}/features` | Detailed feature values |
+| GET | `/api/users/{id}/profile` | Behavior profile summary |
+| GET | `/api/departments` | List departments |
+| GET | `/api/departments/{dept}/stats` | Department stats |
+
+### Behavioral Analysis
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/users/{id}/baseline-comparison` | 🧬 Compare today's behavior vs normal baseline |
+| GET | `/api/users/{id}/risk-trend` | 📈 Weekly risk trend over 12 weeks |
+| GET | `/api/alerts/{id}/ai-insights` | 🤖 AI confidence, score breakdown, recommended actions |
+
+### Executive & Performance
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/executive/summary` | 📊 Executive dashboard (org-wide stats) |
+| GET | `/api/analytics/detection-performance` | 🎯 Precision, recall, F1, FP rate from ground truth |
+
+### Real-Time Monitoring
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/events/stream` | SSE stream for live alerts |
+
+### Case Management
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/cases` | Create investigation case |
+| GET | `/api/cases` | List cases |
+| GET | `/api/cases/{id}` | Case detail with evidence |
+| GET | `/api/cases/{id}/summary` | 📋 Investigation summary report |
+| PATCH | `/api/cases/{id}/status` | Update case status |
+| POST | `/api/cases/{id}/evidence` | Add evidence to case |
+
+### Attack Simulator
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/simulate/scenarios` | List available attack scenarios |
+| POST | `/api/simulate/attack` | 🚀 Trigger a live simulated attack |
+
+### Authentication & RBAC
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/login` | Login (returns JWT) |
+| GET | `/api/auth/me` | Current user info |
+| POST | `/api/auth/users` | Create user (Admin only) |
+
+### Analytics
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/analytics/login-heatmap` | Login hour distribution |
+| GET | `/api/analytics/department-risk` | Risk by department |
+| GET | `/api/analytics/risk-trend` | Risk over time |
+| GET | `/api/analytics/anomaly-distribution` | Anomaly type breakdown |
+| GET | `/api/analytics/top-risk-users` | Highest risk users |
+| GET | `/api/analytics/weekly-trends` | Weekly aggregations |
+
+### Reports (CSV) & More
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/reports/alerts/csv` | Export alerts |
+| GET | `/api/reports/cases/csv` | Export cases |
+| GET | `/api/reports/users/{id}/timeline/csv` | Export user timeline |
+| GET | `/api/reports/audit/csv` | Export audit logs |
+| POST | `/api/retrain` | Trigger full retraining |
+| GET | `/api/retrain/history` | Training history |
+| GET | `/api/audit-logs` | View audit logs (Admin only) |
+| GET | `/api/notifications/config` | View notification configs |
+| POST | `/api/notifications/config` | Add notification channel |
+| GET | `/api/mitre/techniques` | All mapped MITRE ATT&CK techniques |
+| GET | `/api/threat-intel/ip/{ip}` | IP reputation & GeoIP |
+| GET | `/health` | Health check |
+
+---
+
+## 📊 Dashboard Pages
+
+| Page | Route | Features |
+|---|---|---|
+| **Dashboard** | `/` | Stats cards, severity pie/bar charts, risk trend line chart, quick links to Executive & Performance, recent alerts table |
+| **Attack Simulator** ⭐ | `/simulator` | **5 attack buttons** (Login, USB, Data Exfiltration, Sensitive Access, Combined), real-time simulation log, live result panel with MITRE ATT&CK, risk score, and triggers |
+| **Alert Queue** | `/alerts` | Search, severity/dept/status filters, ranked alert cards, risk bars |
+| **Alert Investigation** 🆕 | `/alerts/:id` | **Tabbed interface**: Reasons & Evidence → Score Breakdown → Recommended Actions → Risk Timeline. Includes AI confidence badge, score decomposition pie chart, attack profile indicators, investigation summary panel |
+| **Users Directory** | `/users` | Department-grouped grid, search, alert counts |
+| **User Investigation** 🆕 | `/users/:id` | Risk area chart, file activity bar chart, transfer/USB chart, **weekly risk trend AreaChart**, alert history, behavior profile, **baseline comparison button** |
+| **Behavioral Baseline Comparison** 🆕 | `/users/:id/baseline` | **Side-by-side comparison** of 11 behavioral features: normal mean/std vs today's value with z-scores, horizontal bar chart, deviation alerts, color-coded severity indicators |
+| **Executive Dashboard** 🆕 | `/executive` | **Org-wide KPI cards**, department risk comparison chart, severity pie, department breakdown table, top 10 risky employees ranked |
+| **Detection Performance** 🆕 | `/performance` | **AI metrics dashboard**: precision, recall, F1-score, false positive rate, detection latency, confusion matrix bar chart, performance gauges, missed scenarios list |
+| **Departments** | `/departments` | Per-dept cards, severity pie chart, bar charts, comparison table |
+
+---
+
+## 🧬 Behavioral Baseline Comparison
+
+Every employee has a learned behavioral baseline. The Baseline Comparison page shows exactly **what's normal vs what's happening today**:
+
+| Feature | Icon | What It Measures |
+|---|---|---|
+| Typical Login Hour | ⏰ | Usual time employee logs in vs today |
+| Files Accessed | 📄 | Daily file access count deviation |
+| Sensitive Files | 🔒 | Unusual access to restricted folders |
+| Files Downloaded | ⬇️ | Download volume compared to personal norm |
+| USB Events | 💾 | First-time or unusual USB device usage |
+| USB Data Written | 💾 | Volume of data written to USB |
+| Data Transferred | 📤 | Daily data transfer volume |
+| External Transfer | 🌐 | Data sent to external/personal destinations |
+| Failed Logins | ❌ | Authentication failures above baseline |
+| Distinct IPs | 🌍 | Logins from unusual number of source IPs |
+| After-Hours Login | 🌙 | Login outside typical working hours |
+
+Each feature shows: **Normal value (mean ± std)** → **Today's value** → **Z-score deviation** → **Severity indicator**.
+
+When **3+ deviations** are detected, the page displays a prominent **"Multiple Deviations Detected"** alert with detailed explanations.
+
+---
+
+## 🤖 AI Insights & Score Breakdown
+
+Every alert includes an AI-powered insights panel that decomposes the risk score:
+
+### AI Confidence
+The system assesses how many independent signals agree:
+
+```
+IF Score ≥ 70 + 3+ strong rules (z ≥ 2.5)  →  High Confidence (92%)
+IF Score ≥ 60 + 1+ strong rule              →  Medium-High (78%)
+IF Score ≥ 40 or 2+ moderate rules           →  Medium (60%)
+Weak signals only                            →  Low (35%)
+```
+
+### Score Breakdown (Pie Chart)
+```
+Total Risk Score = IF Contribution (40% of IF score)
+                 + Rule Contribution (60% of rule total)
+                 + Unquantified
+```
+
+Each triggered rule shows its **individual contribution** as a percentage of the total risk score, ranked by impact.
+
+### Attack Profile
+Three risk indicators are computed:
+- **Data Exfiltration Risk** — External transfers, USB data, downloads
+- **Account Compromise Risk** — Failed logins, after-hours access, new IPs
+- **Insider Snooping Risk** — Sensitive files accessed
+
+### Recommended Actions
+Context-aware remediation mapped to each triggered feature:
+
+| Triggered Feature | Recommended Actions |
+|---|---|
+| `failed_logins` | 🔒 Lock account, 🔄 Reset password, 📋 Check brute-force indicators |
+| `usb_first_time` | 💾 Disable USB ports, 📋 Log device serial, 🔄 Review USB policy |
+| `external_transfer_mb` | 🌐 Block external transfers, 🔒 Investigate destination, 🚨 Escalate to DLP |
+| `sensitive_files_accessed` | 🔒 Restrict folder access, 📋 Audit all file logs, 🔄 Escalate to data protection |
+| `after_hours_login` | 🔒 Review login time policy, 📋 Verify with manager |
+
+---
+
+## 📈 Weekly Risk Trend
+
+Instead of only showing the current risk score, the **User Investigation page** now includes a weekly risk trend chart with:
+
+- **Area chart** showing avg risk score per week (12 weeks)
+- **Overlay line** showing max risk score per week
+- **Trend direction indicator**: ↑ Increasing, ↓ Decreasing, → Stable
+- **Week-over-week comparison** from first to last week
+
+This lets analysts see if risk is **escalating over time** — a key insider threat pattern.
+
+---
+
+## 📊 Executive Dashboard
+
+Designed for managers, the Executive Dashboard (at `/executive`) provides:
+
+### KPI Cards
+- **Total Employees** monitored
+- **Active Alerts** (non-resolved)
+- **Organizational Risk Score** (average across all users)
+- **Open Investigations**
+- **Critical Alerts** count
+
+### Department Risk Comparison
+Horizontal bar chart showing each department's **average risk** (colored red/yellow/green) and **max risk** (overlayed in purple).
+
+### Department Breakdown Table
+Sortable table with columns: Department, Avg Risk, Max Risk, Alert Rate %, Total Days, Alert Days. Color-coded by risk level.
+
+### Top 10 Risky Employees
+Ranked list with risk bars, clickable to navigate to full investigation. Top 3 are highlighted in red.
+
+---
+
+## 🎯 Detection Performance
+
+The Detection Performance page (at `/performance`) computes AI model metrics by comparing **High/Critical alerts** against **7 injected ground-truth scenarios**:
+
+### Metrics Computed
+| Metric | Formula | What It Measures |
+|---|---|---|
+| **Precision** | TP / (TP + FP) | How many alerts were correct |
+| **Recall** | TP / (TP + FN) | How many attacks were caught |
+| **F1 Score** | 2 × (P × R) / (P + R) | Harmonic mean of precision & recall |
+| **False Positive Rate** | FP / (FP + TN) | Rate of incorrect High/Critical alerts |
+| **Detection Latency** | Avg hours from event to alert | How fast the system detects |
+
+### Confusion Matrix
+| | Predicted Positive | Predicted Negative |
+|---|---|---|
+| **Actual Positive** | True Positives (TP) | False Negatives (FN) — Missed |
+| **Actual Negative** | False Positives (FP) | True Negatives (TN) |
+
+### Missed Scenarios
+Lists each ground-truth injection that wasn't caught at High/Critical, showing the user, date, and scenario type for continuous improvement.
+
+---
+
+## 📋 Investigation Summary
+
+When a case is resolved, the Alert Investigation page shows an **Investigation Summary** panel containing:
+
+- **Employee ID** and **Detected Attack Type** (MITRE technique)
+- **Aggregate Risk Score** and **Max Severity**
+- **Case Status** and **Assigned Analyst**
+- **Resolution Notes** — how the investigation was concluded
+- **Analyst Actions Timeline** — every recorded action during the investigation
+- **AI Explanation Summary** — top 5 triggered reasons across linked alerts
+- **Evidence** — all evidence items attached to the case
+
+This provides a complete, auditable record for compliance and post-incident review.
+
+---
+
+## 🎮 Attack Simulator (Interactive Demo)
+
+The heart of the hackathon demo. Instead of just reading pre-generated logs, judges can **click a button and watch an attack happen in real-time**.
+
+### How It Works
+
+1. **Pick a target** — Random user or choose a specific employee
+2. **Choose an attack** — 5 scenarios with escalating severity:
+
+| Button | Attack Type | MITRE Technique | What It Generates |
+|---|---|---|---|
+| 🔐 Login Attack | Brute-force | T1110 — Brute Force | Failed logins from external IPs at 2 AM |
+| 💾 USB Exfiltration | Physical exfiltration | T1052 — Exfiltration Over Physical Medium | Unknown USB device with 300-1500 MB data copy |
+| 📤 Data Exfiltration | Web exfiltration | T1567 — Exfiltration Over Web Service | 800-3500 MB to personal email/cloud |
+| 📁 Sensitive Folder Access | Data collection | T1213 — Data from Information Repositories | Mass access to payroll, HR records, legal contracts |
+| 🚨 Combined Attack | Multi-vector | Multiple tactics | All of the above simultaneously |
+
+3. **Watch the detection** — The simulator:
+   - Generates malicious events on-the-fly
+   - Extracts behavioral features (same pipeline as batch processing)
+   - Scores against the user's existing behavioral baseline
+   - Blends Isolation Forest + rule-based deviation → 0-100 risk score
+   - Creates an alert with MITRE ATT&CK mapping
+   - Stores in database + broadcasts via SSE to all connected dashboards
+   - Displays real-time results with severity, reasons, and evidence
+
+### Try It
+
+Navigate to **`/simulator`** in the dashboard, or send a POST request:
+
+```bash
+curl -X POST "http://localhost:8000/api/simulate/attack?attack_type=combined"
+```
+
+---
+
+## 🛡️ RBAC Roles
+
+| Role | Permissions |
+|---|---|
+| **Admin** | Full access — manage users, notifications, retraining, audit logs |
+| **Analyst** | View alerts, create cases, add comments, update status, export reports |
+| **Viewer** | Read-only access to dashboard, alerts, and analytics |
+
+---
+
+## 🧪 Running Tests
+
+```bash
+cd backend
+pip install -r requirements.txt
+pytest tests/ -v
+
+# Specific test file
+pytest tests/test_detection.py -v
+pytest tests/test_api.py -v
+```
+
+---
+
+## ⚙️ Configuration
+
+See `.env.example` for all configuration options. Key settings:
+
+```env
+DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/insider_threat
+JWT_SECRET_KEY=your-random-secret-here
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
+RETRAIN_INTERVAL_HOURS=24
+```
+
+---
+
+## 📁 License
+
+Built for the Autonomous Threat Hunter for Insider Attacks project — a complete SOC platform demonstration.

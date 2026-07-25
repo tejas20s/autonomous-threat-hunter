@@ -1,0 +1,199 @@
+[
+  {
+    "user_id": "user001",
+    "department": "IT Ops",
+    "known_usb_devices": [],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user002",
+    "department": "Legal",
+    "known_usb_devices": [],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user003",
+    "department": "Finance",
+    "known_usb_devices": [
+      "USB-0015",
+      "USB-0029"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user004",
+    "department": "Engineering",
+    "known_usb_devices": [
+      "USB-0022",
+      "USB-0018"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user005",
+    "department": "HR",
+    "known_usb_devices": [
+      "USB-0003"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user006",
+    "department": "Legal",
+    "known_usb_devices": [],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user007",
+    "department": "IT Ops",
+    "known_usb_devices": [],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user008",
+    "department": "HR",
+    "known_usb_devices": [],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user009",
+    "department": "Sales",
+    "known_usb_devices": [
+      "USB-0005"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user010",
+    "department": "Finance",
+    "known_usb_devices": [
+      "USB-0025",
+      "USB-0018"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user011",
+    "department": "IT Ops",
+    "known_usb_devices": [],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user012",
+    "department": "Engineering",
+    "known_usb_devices": [],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user013",
+    "department": "Legal",
+    "known_usb_devices": [
+      "USB-0010",
+      "USB-0017"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user014",
+    "department": "IT Ops",
+    "known_usb_devices": [
+      "USB-0038",
+      "USB-0026"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user015",
+    "department": "Finance",
+    "known_usb_devices": [
+      "USB-0028"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user016",
+    "department": "Sales",
+    "known_usb_devices": [
+      "USB-0036"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user017",
+    "department": "Engineering",
+    "known_usb_devices": [
+      "USB-0008"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user018",
+    "department": "Finance",
+    "known_usb_devices": [
+      "USB-0033"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user019",
+    "department": "Legal",
+    "known_usb_devices": [
+      "USB-0010"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user020",
+    "department": "Finance",
+    "known_usb_devices": [],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user021",
+    "department": "Sales",
+    "known_usb_devices": [
+      "USB-0016"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user022",
+    "department": "Legal",
+    "known_usb_devices": [
+      "USB-0005",
+      "USB-0035"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user023",
+    "department": "Finance",
+    "known_usb_devices": [
+      "USB-0014",
+      "USB-0035"
+    ],
+    "sensitive_access_normal": true
+  },
+  {
+    "user_id": "user024",
+    "department": "IT Ops",
+    "known_usb_devices": [
+      "USB-0029"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user025",
+    "department": "Sales",
+    "known_usb_devices": [
+      "USB-0038"
+    ],
+    "sensitive_access_normal": false
+  },
+  {
+    "user_id": "user026",
+    "department": "Engineering",
+    "known_usb_devices": [],
+    "sensitive_access_normal": false
+  }
+]

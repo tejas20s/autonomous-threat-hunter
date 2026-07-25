@@ -1,0 +1,3360 @@
+[
+  {
+    "alert_id": "ALT-0060",
+    "user_id": "user017",
+    "department": "Engineering",
+    "date": "2026-06-27",
+    "risk_score": 100.0,
+    "severity": "Critical",
+    "isolation_forest_score": 99.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 166.42,
+        "weight": 20,
+        "contribution": 44.0,
+        "explanation": "1562 MB sent to an external/personal destination (personal email or external cloud storage)"
+      },
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 26.0,
+        "weight": 16,
+        "contribution": 35.2,
+        "explanation": "Accessed 13 files in sensitive/restricted folders, well above this user's norm"
+      },
+      {
+        "feature": "usb_data_mb",
+        "z_score": 136.0,
+        "weight": 14,
+        "contribution": 30.8,
+        "explanation": "Wrote 721 MB to USB storage \u2014 far above this user's typical USB volume"
+      },
+      {
+        "feature": "files_downloaded",
+        "z_score": 8.2,
+        "weight": 12,
+        "contribution": 26.4,
+        "explanation": "Downloaded 20 files in a single day \u2014 8.2 std devs above baseline"
+      },
+      {
+        "feature": "transfer_mb",
+        "z_score": 110.27,
+        "weight": 10,
+        "contribution": 22.0,
+        "explanation": "Total data transfer of 1590 MB \u2014 110.3 std devs above personal baseline"
+      },
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      },
+      {
+        "feature": "files_accessed",
+        "z_score": 3.79,
+        "weight": 10,
+        "contribution": 15.2,
+        "explanation": "Accessed 33 files \u2014 3.8 std devs above personal daily average"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 33,
+      "sensitive_files_accessed": 13,
+      "files_downloaded": 20,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 721.4,
+      "transfer_mb": 1589.8,
+      "external_transfer_mb": 1562.4
+    }
+  },
+  {
+    "alert_id": "ALT-0059",
+    "user_id": "user017",
+    "department": "Engineering",
+    "date": "2026-06-26",
+    "risk_score": 99.9,
+    "severity": "Critical",
+    "isolation_forest_score": 99.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 88.0,
+        "weight": 16,
+        "contribution": 35.2,
+        "explanation": "Accessed 44 files in sensitive/restricted folders, well above this user's norm"
+      },
+      {
+        "feature": "files_downloaded",
+        "z_score": 21.47,
+        "weight": 12,
+        "contribution": 26.4,
+        "explanation": "Downloaded 44 files in a single day \u2014 21.5 std devs above baseline"
+      },
+      {
+        "feature": "files_accessed",
+        "z_score": 6.37,
+        "weight": 10,
+        "contribution": 22.0,
+        "explanation": "Accessed 44 files \u2014 6.4 std devs above personal daily average"
+      },
+      {
+        "feature": "failed_logins",
+        "z_score": 4.0,
+        "weight": 8,
+        "contribution": 12.8,
+        "explanation": "2 failed login attempt(s) before success \u2014 4.0 std devs above normal"
+      },
+      {
+        "feature": "after_hours_login",
+        "z_score": 2.5,
+        "weight": 12,
+        "contribution": 12.0,
+        "explanation": "Login well outside typical hours (earliest login 02:20, 2.5 std devs from baseline)"
+      },
+      {
+        "feature": "distinct_ips",
+        "z_score": 4.53,
+        "weight": 6,
+        "contribution": 10.9,
+        "explanation": "Logged in from 3 distinct source IPs in one day"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 2.33,
+      "earliest_login_hour": 2.33,
+      "failed_logins": 2,
+      "files_accessed": 44,
+      "sensitive_files_accessed": 44,
+      "files_downloaded": 44,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 0.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0015",
+    "user_id": "user003",
+    "department": "Finance",
+    "date": "2026-06-08",
+    "risk_score": 79.4,
+    "severity": "High",
+    "isolation_forest_score": 99.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 82.44,
+        "weight": 20,
+        "contribution": 44.0,
+        "explanation": "1540 MB sent to an external/personal destination (personal email or external cloud storage)"
+      },
+      {
+        "feature": "transfer_mb",
+        "z_score": 99.06,
+        "weight": 10,
+        "contribution": 22.0,
+        "explanation": "Total data transfer of 1540 MB \u2014 99.1 std devs above personal baseline"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.53,
+      "earliest_login_hour": 8.53,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 0,
+      "usb_data_mb": 18.9,
+      "transfer_mb": 1540.3,
+      "external_transfer_mb": 1540.3
+    }
+  },
+  {
+    "alert_id": "ALT-0080",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-06-10",
+    "risk_score": 73.7,
+    "severity": "High",
+    "isolation_forest_score": 99.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 5.96,
+        "weight": 16,
+        "contribution": 35.2,
+        "explanation": "Accessed 9 files in sensitive/restricted folders, well above this user's norm"
+      },
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.95,
+      "earliest_login_hour": 10.95,
+      "failed_logins": 0,
+      "files_accessed": 17,
+      "sensitive_files_accessed": 9,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 11.0,
+      "transfer_mb": 97.8,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0056",
+    "user_id": "user016",
+    "department": "Sales",
+    "date": "2026-06-19",
+    "risk_score": 71.3,
+    "severity": "High",
+    "isolation_forest_score": 99.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_data_mb",
+        "z_score": 425.14,
+        "weight": 14,
+        "contribution": 30.8,
+        "explanation": "Wrote 1008 MB to USB storage \u2014 far above this user's typical USB volume"
+      },
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.05,
+      "earliest_login_hour": 9.05,
+      "failed_logins": 0,
+      "files_accessed": 26,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 9,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 1007.8,
+      "transfer_mb": 76.2,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0024",
+    "user_id": "user007",
+    "department": "IT Ops",
+    "date": "2026-06-19",
+    "risk_score": 71.1,
+    "severity": "High",
+    "isolation_forest_score": 99.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_data_mb",
+        "z_score": 123.2,
+        "weight": 14,
+        "contribution": 30.8,
+        "explanation": "Wrote 904 MB to USB storage \u2014 far above this user's typical USB volume"
+      },
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.08,
+      "earliest_login_hour": 9.08,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 904.1,
+      "transfer_mb": 59.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0081",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-06-16",
+    "risk_score": 70.3,
+    "severity": "High",
+    "isolation_forest_score": 89.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 5.11,
+        "weight": 16,
+        "contribution": 32.7,
+        "explanation": "Accessed 8 files in sensitive/restricted folders, well above this user's norm"
+      },
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.06,
+        "weight": 20,
+        "contribution": 24.5,
+        "explanation": "80 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.22,
+      "earliest_login_hour": 8.22,
+      "failed_logins": 0,
+      "files_accessed": 17,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 3,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 79.6,
+      "external_transfer_mb": 79.6
+    }
+  },
+  {
+    "alert_id": "ALT-0099",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-06-01",
+    "risk_score": 68.8,
+    "severity": "High",
+    "isolation_forest_score": 99.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.33,
+        "weight": 20,
+        "contribution": 26.7,
+        "explanation": "106 MB sent to an external/personal destination (personal email or external cloud storage)"
+      },
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.18,
+      "earliest_login_hour": 10.18,
+      "failed_logins": 0,
+      "files_accessed": 4,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 2,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 21.7,
+      "transfer_mb": 105.9,
+      "external_transfer_mb": 105.9
+    }
+  },
+  {
+    "alert_id": "ALT-0061",
+    "user_id": "user018",
+    "department": "Finance",
+    "date": "2026-05-20",
+    "risk_score": 62.2,
+    "severity": "High",
+    "isolation_forest_score": 95.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 5.02,
+        "weight": 20,
+        "contribution": 40.2,
+        "explanation": "136 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.27,
+      "earliest_login_hour": 8.27,
+      "failed_logins": 0,
+      "files_accessed": 23,
+      "sensitive_files_accessed": 4,
+      "files_downloaded": 2,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 136.4,
+      "external_transfer_mb": 136.4
+    }
+  },
+  {
+    "alert_id": "ALT-0088",
+    "user_id": "user023",
+    "department": "Finance",
+    "date": "2026-06-27",
+    "risk_score": 61.5,
+    "severity": "High",
+    "isolation_forest_score": 99.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      },
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.32,
+        "weight": 16,
+        "contribution": 14.9,
+        "explanation": "Accessed 6 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 5,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 10.6,
+      "transfer_mb": 80.7,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0025",
+    "user_id": "user007",
+    "department": "IT Ops",
+    "date": "2026-06-23",
+    "risk_score": 57.7,
+    "severity": "Medium",
+    "isolation_forest_score": 92.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 4.28,
+        "weight": 20,
+        "contribution": 34.2,
+        "explanation": "102 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.73,
+      "earliest_login_hour": 7.73,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 101.6,
+      "external_transfer_mb": 101.6
+    }
+  },
+  {
+    "alert_id": "ALT-0044",
+    "user_id": "user011",
+    "department": "IT Ops",
+    "date": "2026-06-08",
+    "risk_score": 56.5,
+    "severity": "Medium",
+    "isolation_forest_score": 88.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 52.0,
+        "weight": 16,
+        "contribution": 35.2,
+        "explanation": "Accessed 26 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.67,
+      "earliest_login_hour": 8.67,
+      "failed_logins": 0,
+      "files_accessed": 26,
+      "sensitive_files_accessed": 26,
+      "files_downloaded": 8,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 53.3,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0029",
+    "user_id": "user008",
+    "department": "HR",
+    "date": "2026-06-18",
+    "risk_score": 55.3,
+    "severity": "Medium",
+    "isolation_forest_score": 85.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 6.97,
+        "weight": 16,
+        "contribution": 35.2,
+        "explanation": "Accessed 22 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.25,
+      "earliest_login_hour": 8.25,
+      "failed_logins": 0,
+      "files_accessed": 22,
+      "sensitive_files_accessed": 22,
+      "files_downloaded": 8,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 40.6,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0078",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-05-11",
+    "risk_score": 55.3,
+    "severity": "Medium",
+    "isolation_forest_score": 92.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.81,
+        "weight": 20,
+        "contribution": 30.5,
+        "explanation": "97 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.08,
+      "earliest_login_hour": 10.08,
+      "failed_logins": 0,
+      "files_accessed": 7,
+      "sensitive_files_accessed": 1,
+      "files_downloaded": 5,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 97.2,
+      "external_transfer_mb": 97.2
+    }
+  },
+  {
+    "alert_id": "ALT-0058",
+    "user_id": "user017",
+    "department": "Engineering",
+    "date": "2026-06-25",
+    "risk_score": 54.8,
+    "severity": "Medium",
+    "isolation_forest_score": 84.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 8.0,
+        "weight": 16,
+        "contribution": 35.2,
+        "explanation": "Accessed 4 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.53,
+      "earliest_login_hour": 10.53,
+      "failed_logins": 0,
+      "files_accessed": 17,
+      "sensitive_files_accessed": 4,
+      "files_downloaded": 11,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 26.3,
+      "external_transfer_mb": 26.3
+    }
+  },
+  {
+    "alert_id": "ALT-0083",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-06-20",
+    "risk_score": 54.4,
+    "severity": "Medium",
+    "isolation_forest_score": 96.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.3,
+        "weight": 20,
+        "contribution": 26.4,
+        "explanation": "85 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 85.3,
+      "external_transfer_mb": 85.3
+    }
+  },
+  {
+    "alert_id": "ALT-0026",
+    "user_id": "user007",
+    "department": "IT Ops",
+    "date": "2026-06-27",
+    "risk_score": 53.8,
+    "severity": "Medium",
+    "isolation_forest_score": 94.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.3,
+        "weight": 20,
+        "contribution": 26.4,
+        "explanation": "80 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 16,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 7,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 80.3,
+      "external_transfer_mb": 80.3
+    }
+  },
+  {
+    "alert_id": "ALT-0051",
+    "user_id": "user014",
+    "department": "IT Ops",
+    "date": "2026-06-22",
+    "risk_score": 53.8,
+    "severity": "Medium",
+    "isolation_forest_score": 78.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 4.64,
+        "weight": 20,
+        "contribution": 37.1,
+        "explanation": "69 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.8,
+      "earliest_login_hour": 7.8,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 69.1,
+      "external_transfer_mb": 69.1
+    }
+  },
+  {
+    "alert_id": "ALT-0079",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-05-23",
+    "risk_score": 53.0,
+    "severity": "Medium",
+    "isolation_forest_score": 96.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.02,
+        "weight": 20,
+        "contribution": 24.2,
+        "explanation": "79 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 16,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 9,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 78.7,
+      "external_transfer_mb": 78.7
+    }
+  },
+  {
+    "alert_id": "ALT-0020",
+    "user_id": "user006",
+    "department": "Legal",
+    "date": "2026-06-14",
+    "risk_score": 52.9,
+    "severity": "Medium",
+    "isolation_forest_score": 99.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 19,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 10,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 19.2,
+      "transfer_mb": 59.0,
+      "external_transfer_mb": 59.0
+    }
+  },
+  {
+    "alert_id": "ALT-0070",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-05-23",
+    "risk_score": 52.9,
+    "severity": "Medium",
+    "isolation_forest_score": 99.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 11,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 10.5,
+      "transfer_mb": 57.2,
+      "external_transfer_mb": 57.2
+    }
+  },
+  {
+    "alert_id": "ALT-0010",
+    "user_id": "user002",
+    "department": "Legal",
+    "date": "2026-05-31",
+    "risk_score": 52.8,
+    "severity": "Medium",
+    "isolation_forest_score": 99.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 1,
+      "files_downloaded": 3,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 21.3,
+      "transfer_mb": 1.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0031",
+    "user_id": "user009",
+    "department": "Sales",
+    "date": "2026-05-03",
+    "risk_score": 52.8,
+    "severity": "Medium",
+    "isolation_forest_score": 91.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.37,
+        "weight": 20,
+        "contribution": 26.9,
+        "explanation": "70 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 69.7,
+      "external_transfer_mb": 69.7
+    }
+  },
+  {
+    "alert_id": "ALT-0049",
+    "user_id": "user012",
+    "department": "Engineering",
+    "date": "2026-06-21",
+    "risk_score": 52.8,
+    "severity": "Medium",
+    "isolation_forest_score": 99.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 10,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 27.5,
+      "transfer_mb": 6.1,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0008",
+    "user_id": "user002",
+    "department": "Legal",
+    "date": "2026-05-12",
+    "risk_score": 52.7,
+    "severity": "Medium",
+    "isolation_forest_score": 99.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 11.15,
+      "earliest_login_hour": 11.15,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 4,
+      "files_downloaded": 6,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 31.5,
+      "transfer_mb": 1.1,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0018",
+    "user_id": "user006",
+    "department": "Legal",
+    "date": "2026-05-31",
+    "risk_score": 52.7,
+    "severity": "Medium",
+    "isolation_forest_score": 99.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 17,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 8,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 20.5,
+      "transfer_mb": 49.2,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0074",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-06-25",
+    "risk_score": 52.7,
+    "severity": "Medium",
+    "isolation_forest_score": 99.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.38,
+      "earliest_login_hour": 8.38,
+      "failed_logins": 0,
+      "files_accessed": 22,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 9,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 20.3,
+      "transfer_mb": 56.4,
+      "external_transfer_mb": 56.4
+    }
+  },
+  {
+    "alert_id": "ALT-0027",
+    "user_id": "user008",
+    "department": "HR",
+    "date": "2026-05-02",
+    "risk_score": 52.6,
+    "severity": "Medium",
+    "isolation_forest_score": 99.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 6,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 15.6,
+      "transfer_mb": 24.7,
+      "external_transfer_mb": 24.7
+    }
+  },
+  {
+    "alert_id": "ALT-0007",
+    "user_id": "user002",
+    "department": "Legal",
+    "date": "2026-05-02",
+    "risk_score": 52.5,
+    "severity": "Medium",
+    "isolation_forest_score": 98.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 6,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 24.2,
+      "transfer_mb": 21.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0047",
+    "user_id": "user012",
+    "department": "Engineering",
+    "date": "2026-05-24",
+    "risk_score": 52.5,
+    "severity": "Medium",
+    "isolation_forest_score": 98.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 24.3,
+      "transfer_mb": 31.6,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0068",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-05-05",
+    "risk_score": 52.5,
+    "severity": "Medium",
+    "isolation_forest_score": 98.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.02,
+      "earliest_login_hour": 7.02,
+      "failed_logins": 0,
+      "files_accessed": 23,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 23.9,
+      "transfer_mb": 38.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0002",
+    "user_id": "user001",
+    "department": "IT Ops",
+    "date": "2026-05-27",
+    "risk_score": 52.4,
+    "severity": "Medium",
+    "isolation_forest_score": 98.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.97,
+      "earliest_login_hour": 10.97,
+      "failed_logins": 0,
+      "files_accessed": 18,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 10,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 36.0,
+      "transfer_mb": 53.8,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0053",
+    "user_id": "user015",
+    "department": "Finance",
+    "date": "2026-05-18",
+    "risk_score": 52.4,
+    "severity": "Medium",
+    "isolation_forest_score": 98.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.85,
+      "earliest_login_hour": 9.85,
+      "failed_logins": 0,
+      "files_accessed": 4,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 1,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 23.0,
+      "transfer_mb": 14.1,
+      "external_transfer_mb": 14.1
+    }
+  },
+  {
+    "alert_id": "ALT-0075",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-06-26",
+    "risk_score": 52.4,
+    "severity": "Medium",
+    "isolation_forest_score": 98.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.65,
+      "earliest_login_hour": 9.65,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 5,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 35.8,
+      "transfer_mb": 36.1,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0094",
+    "user_id": "user024",
+    "department": "IT Ops",
+    "date": "2026-06-10",
+    "risk_score": 52.4,
+    "severity": "Medium",
+    "isolation_forest_score": 98.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.38,
+      "earliest_login_hour": 7.38,
+      "failed_logins": 0,
+      "files_accessed": 17,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 39.3,
+      "transfer_mb": 61.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0001",
+    "user_id": "user001",
+    "department": "IT Ops",
+    "date": "2026-05-04",
+    "risk_score": 52.3,
+    "severity": "Medium",
+    "isolation_forest_score": 98.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 11.6,
+      "earliest_login_hour": 11.6,
+      "failed_logins": 0,
+      "files_accessed": 17,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 2,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 29.0,
+      "transfer_mb": 50.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0028",
+    "user_id": "user008",
+    "department": "HR",
+    "date": "2026-06-07",
+    "risk_score": 52.3,
+    "severity": "Medium",
+    "isolation_forest_score": 98.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.17,
+      "earliest_login_hour": 10.17,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 5,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 35.0,
+      "transfer_mb": 37.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0073",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-06-22",
+    "risk_score": 52.3,
+    "severity": "Medium",
+    "isolation_forest_score": 98.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.17,
+      "earliest_login_hour": 9.17,
+      "failed_logins": 0,
+      "files_accessed": 21,
+      "sensitive_files_accessed": 5,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 15.8,
+      "transfer_mb": 54.5,
+      "external_transfer_mb": 54.5
+    }
+  },
+  {
+    "alert_id": "ALT-0022",
+    "user_id": "user007",
+    "department": "IT Ops",
+    "date": "2026-05-05",
+    "risk_score": 52.2,
+    "severity": "Medium",
+    "isolation_forest_score": 98.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.43,
+      "earliest_login_hour": 8.43,
+      "failed_logins": 0,
+      "files_accessed": 19,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 37.1,
+      "transfer_mb": 57.5,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0046",
+    "user_id": "user012",
+    "department": "Engineering",
+    "date": "2026-05-08",
+    "risk_score": 52.2,
+    "severity": "Medium",
+    "isolation_forest_score": 98.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.62,
+      "earliest_login_hour": 8.62,
+      "failed_logins": 0,
+      "files_accessed": 15,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 6,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 29.9,
+      "transfer_mb": 1.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0030",
+    "user_id": "user008",
+    "department": "HR",
+    "date": "2026-06-24",
+    "risk_score": 52.1,
+    "severity": "Medium",
+    "isolation_forest_score": 97.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.82,
+      "earliest_login_hour": 7.82,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 22.9,
+      "transfer_mb": 44.6,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0048",
+    "user_id": "user012",
+    "department": "Engineering",
+    "date": "2026-06-07",
+    "risk_score": 52.1,
+    "severity": "Medium",
+    "isolation_forest_score": 97.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 6.8,
+      "transfer_mb": 22.1,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0100",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-06-16",
+    "risk_score": 52.1,
+    "severity": "Medium",
+    "isolation_forest_score": 97.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.77,
+      "earliest_login_hour": 10.77,
+      "failed_logins": 0,
+      "files_accessed": 6,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 14.8,
+      "transfer_mb": 61.9,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0009",
+    "user_id": "user002",
+    "department": "Legal",
+    "date": "2026-05-15",
+    "risk_score": 52.0,
+    "severity": "Medium",
+    "isolation_forest_score": 97.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.52,
+      "earliest_login_hour": 10.52,
+      "failed_logins": 0,
+      "files_accessed": 8,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 1,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 10.1,
+      "transfer_mb": 50.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0013",
+    "user_id": "user003",
+    "department": "Finance",
+    "date": "2026-05-11",
+    "risk_score": 52.0,
+    "severity": "Medium",
+    "isolation_forest_score": 97.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.25,
+      "earliest_login_hour": 10.25,
+      "failed_logins": 0,
+      "files_accessed": 11,
+      "sensitive_files_accessed": 4,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 10.1,
+      "transfer_mb": 80.1,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0006",
+    "user_id": "user001",
+    "department": "IT Ops",
+    "date": "2026-06-29",
+    "risk_score": 51.9,
+    "severity": "Medium",
+    "isolation_forest_score": 97.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.87,
+      "earliest_login_hour": 10.87,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 3,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 11.0,
+      "transfer_mb": 61.1,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0069",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-05-21",
+    "risk_score": 51.9,
+    "severity": "Medium",
+    "isolation_forest_score": 97.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.55,
+      "earliest_login_hour": 8.55,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 1,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 21.1,
+      "transfer_mb": 67.5,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0097",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-05-22",
+    "risk_score": 51.9,
+    "severity": "Medium",
+    "isolation_forest_score": 97.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.77,
+      "earliest_login_hour": 9.77,
+      "failed_logins": 0,
+      "files_accessed": 7,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 7.9,
+      "transfer_mb": 88.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0023",
+    "user_id": "user007",
+    "department": "IT Ops",
+    "date": "2026-05-28",
+    "risk_score": 51.8,
+    "severity": "Medium",
+    "isolation_forest_score": 97.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.65,
+      "earliest_login_hour": 7.65,
+      "failed_logins": 0,
+      "files_accessed": 18,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 6,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 18.3,
+      "transfer_mb": 43.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0045",
+    "user_id": "user011",
+    "department": "IT Ops",
+    "date": "2026-06-26",
+    "risk_score": 51.8,
+    "severity": "Medium",
+    "isolation_forest_score": 97.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.08,
+      "earliest_login_hour": 10.08,
+      "failed_logins": 0,
+      "files_accessed": 15,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 21.0,
+      "transfer_mb": 45.3,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0043",
+    "user_id": "user011",
+    "department": "IT Ops",
+    "date": "2026-06-01",
+    "risk_score": 51.7,
+    "severity": "Medium",
+    "isolation_forest_score": 96.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.0,
+      "earliest_login_hour": 9.0,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 9,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 15.5,
+      "transfer_mb": 37.4,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0072",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-06-16",
+    "risk_score": 51.7,
+    "severity": "Medium",
+    "isolation_forest_score": 96.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.33,
+      "earliest_login_hour": 9.33,
+      "failed_logins": 0,
+      "files_accessed": 12,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 7,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 10.8,
+      "transfer_mb": 64.2,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0077",
+    "user_id": "user021",
+    "department": "Sales",
+    "date": "2026-05-26",
+    "risk_score": 51.7,
+    "severity": "Medium",
+    "isolation_forest_score": 96.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.82,
+      "earliest_login_hour": 9.82,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 5,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 6.8,
+      "transfer_mb": 11.6,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0085",
+    "user_id": "user023",
+    "department": "Finance",
+    "date": "2026-05-17",
+    "risk_score": 51.6,
+    "severity": "Medium",
+    "isolation_forest_score": 94.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.89,
+        "weight": 20,
+        "contribution": 23.1,
+        "explanation": "75 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 15,
+      "sensitive_files_accessed": 4,
+      "files_downloaded": 3,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 74.8,
+      "external_transfer_mb": 74.8
+    }
+  },
+  {
+    "alert_id": "ALT-0004",
+    "user_id": "user001",
+    "department": "IT Ops",
+    "date": "2026-06-22",
+    "risk_score": 51.5,
+    "severity": "Medium",
+    "isolation_forest_score": 96.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "usb_first_time",
+        "z_score": 3.0,
+        "weight": 18,
+        "contribution": 21.6,
+        "explanation": "First-time use of an unrecognized USB device"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.27,
+      "earliest_login_hour": 10.27,
+      "failed_logins": 0,
+      "files_accessed": 15,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 3,
+      "usb_events": 1,
+      "usb_first_time": 1,
+      "usb_data_mb": 5.6,
+      "transfer_mb": 66.9,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0089",
+    "user_id": "user023",
+    "department": "Finance",
+    "date": "2026-06-28",
+    "risk_score": 51.5,
+    "severity": "Medium",
+    "isolation_forest_score": 91.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 3.89,
+        "weight": 16,
+        "contribution": 24.9,
+        "explanation": "Accessed 8 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 23,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 7,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 69.6,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0021",
+    "user_id": "user007",
+    "department": "IT Ops",
+    "date": "2026-05-01",
+    "risk_score": 50.9,
+    "severity": "Medium",
+    "isolation_forest_score": 91.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.96,
+        "weight": 20,
+        "contribution": 23.7,
+        "explanation": "73 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.07,
+      "earliest_login_hour": 8.07,
+      "failed_logins": 0,
+      "files_accessed": 21,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 12,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 72.9,
+      "external_transfer_mb": 72.9
+    }
+  },
+  {
+    "alert_id": "ALT-0064",
+    "user_id": "user018",
+    "department": "Finance",
+    "date": "2026-06-16",
+    "risk_score": 50.9,
+    "severity": "Medium",
+    "isolation_forest_score": 91.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.99,
+        "weight": 20,
+        "contribution": 23.9,
+        "explanation": "84 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.38,
+      "earliest_login_hour": 8.38,
+      "failed_logins": 0,
+      "files_accessed": 28,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 8,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 83.7,
+      "external_transfer_mb": 83.7
+    }
+  },
+  {
+    "alert_id": "ALT-0003",
+    "user_id": "user001",
+    "department": "IT Ops",
+    "date": "2026-06-06",
+    "risk_score": 50.6,
+    "severity": "Medium",
+    "isolation_forest_score": 94.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.65,
+        "weight": 20,
+        "contribution": 21.2,
+        "explanation": "86 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 11,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 3,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 86.5,
+      "external_transfer_mb": 86.5
+    }
+  },
+  {
+    "alert_id": "ALT-0096",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-05-16",
+    "risk_score": 50.5,
+    "severity": "Medium",
+    "isolation_forest_score": 96.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.52,
+        "weight": 20,
+        "contribution": 20.2,
+        "explanation": "83 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 4,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 82.8,
+      "external_transfer_mb": 82.8
+    }
+  },
+  {
+    "alert_id": "ALT-0067",
+    "user_id": "user019",
+    "department": "Legal",
+    "date": "2026-06-20",
+    "risk_score": 50.1,
+    "severity": "Medium",
+    "isolation_forest_score": 96.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "files_downloaded",
+        "z_score": 4.03,
+        "weight": 12,
+        "contribution": 19.4,
+        "explanation": "Downloaded 14 files in a single day \u2014 4.0 std devs above baseline"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 25,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 14,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 35.1,
+      "external_transfer_mb": 35.1
+    }
+  },
+  {
+    "alert_id": "ALT-0057",
+    "user_id": "user016",
+    "department": "Sales",
+    "date": "2026-06-26",
+    "risk_score": 50.0,
+    "severity": "Medium",
+    "isolation_forest_score": 96.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.36,
+        "weight": 20,
+        "contribution": 18.9,
+        "explanation": "105 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.13,
+      "earliest_login_hour": 10.13,
+      "failed_logins": 0,
+      "files_accessed": 27,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 11,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 104.6,
+      "external_transfer_mb": 104.6
+    }
+  },
+  {
+    "alert_id": "ALT-0050",
+    "user_id": "user014",
+    "department": "IT Ops",
+    "date": "2026-06-15",
+    "risk_score": 49.9,
+    "severity": "Medium",
+    "isolation_forest_score": 95.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "files_downloaded",
+        "z_score": 4.02,
+        "weight": 12,
+        "contribution": 19.3,
+        "explanation": "Downloaded 11 files in a single day \u2014 4.0 std devs above baseline"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.92,
+      "earliest_login_hour": 7.92,
+      "failed_logins": 0,
+      "files_accessed": 16,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 11,
+      "usb_events": 1,
+      "usb_first_time": 0,
+      "usb_data_mb": 16.9,
+      "transfer_mb": 26.7,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0087",
+    "user_id": "user023",
+    "department": "Finance",
+    "date": "2026-06-07",
+    "risk_score": 49.7,
+    "severity": "Medium",
+    "isolation_forest_score": 86.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 3.89,
+        "weight": 16,
+        "contribution": 24.9,
+        "explanation": "Accessed 8 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 42.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0037",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-05-14",
+    "risk_score": 49.4,
+    "severity": "Medium",
+    "isolation_forest_score": 90.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.78,
+        "weight": 20,
+        "contribution": 22.2,
+        "explanation": "104 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.2,
+      "earliest_login_hour": 9.2,
+      "failed_logins": 0,
+      "files_accessed": 12,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 3,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 103.8,
+      "external_transfer_mb": 103.8
+    }
+  },
+  {
+    "alert_id": "ALT-0098",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-05-27",
+    "risk_score": 49.3,
+    "severity": "Medium",
+    "isolation_forest_score": 89.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.86,
+        "weight": 20,
+        "contribution": 22.9,
+        "explanation": "92 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.42,
+      "earliest_login_hour": 9.42,
+      "failed_logins": 0,
+      "files_accessed": 11,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 92.5,
+      "external_transfer_mb": 92.5
+    }
+  },
+  {
+    "alert_id": "ALT-0011",
+    "user_id": "user002",
+    "department": "Legal",
+    "date": "2026-06-15",
+    "risk_score": 48.9,
+    "severity": "Medium",
+    "isolation_forest_score": 85.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 3.87,
+        "weight": 16,
+        "contribution": 24.8,
+        "explanation": "Accessed 9 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.83,
+      "earliest_login_hour": 10.83,
+      "failed_logins": 0,
+      "files_accessed": 15,
+      "sensitive_files_accessed": 9,
+      "files_downloaded": 5,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 22.1,
+      "external_transfer_mb": 22.1
+    }
+  },
+  {
+    "alert_id": "ALT-0054",
+    "user_id": "user016",
+    "department": "Sales",
+    "date": "2026-05-18",
+    "risk_score": 48.9,
+    "severity": "Medium",
+    "isolation_forest_score": 94.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.3,
+        "weight": 20,
+        "contribution": 18.4,
+        "explanation": "103 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.72,
+      "earliest_login_hour": 9.72,
+      "failed_logins": 0,
+      "files_accessed": 27,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 102.6,
+      "external_transfer_mb": 102.6
+    }
+  },
+  {
+    "alert_id": "ALT-0052",
+    "user_id": "user015",
+    "department": "Finance",
+    "date": "2026-05-03",
+    "risk_score": 48.6,
+    "severity": "Medium",
+    "isolation_forest_score": 95.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.18,
+        "weight": 20,
+        "contribution": 17.4,
+        "explanation": "83 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 7,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 3,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 83.3,
+      "external_transfer_mb": 83.3
+    }
+  },
+  {
+    "alert_id": "ALT-0065",
+    "user_id": "user018",
+    "department": "Finance",
+    "date": "2026-06-18",
+    "risk_score": 48.5,
+    "severity": "Medium",
+    "isolation_forest_score": 86.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.88,
+        "weight": 20,
+        "contribution": 23.0,
+        "explanation": "81 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.12,
+      "earliest_login_hour": 9.12,
+      "failed_logins": 0,
+      "files_accessed": 19,
+      "sensitive_files_accessed": 7,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 80.9,
+      "external_transfer_mb": 80.9
+    }
+  },
+  {
+    "alert_id": "ALT-0033",
+    "user_id": "user009",
+    "department": "Sales",
+    "date": "2026-06-17",
+    "risk_score": 48.4,
+    "severity": "Medium",
+    "isolation_forest_score": 95.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "transfer_mb",
+        "z_score": 4.17,
+        "weight": 10,
+        "contribution": 16.7,
+        "explanation": "Total data transfer of 119 MB \u2014 4.2 std devs above personal baseline"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.87,
+      "earliest_login_hour": 7.87,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 9,
+      "usb_events": 1,
+      "usb_first_time": 0,
+      "usb_data_mb": 10.5,
+      "transfer_mb": 119.3,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0005",
+    "user_id": "user001",
+    "department": "IT Ops",
+    "date": "2026-06-26",
+    "risk_score": 48.3,
+    "severity": "Medium",
+    "isolation_forest_score": 92.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.39,
+        "weight": 20,
+        "contribution": 19.1,
+        "explanation": "79 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.98,
+      "earliest_login_hour": 10.98,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 79.4,
+      "external_transfer_mb": 79.4
+    }
+  },
+  {
+    "alert_id": "ALT-0035",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-05-04",
+    "risk_score": 48.0,
+    "severity": "Medium",
+    "isolation_forest_score": 92.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.31,
+        "weight": 20,
+        "contribution": 18.5,
+        "explanation": "89 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.75,
+      "earliest_login_hour": 7.75,
+      "failed_logins": 0,
+      "files_accessed": 19,
+      "sensitive_files_accessed": 7,
+      "files_downloaded": 5,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 89.0,
+      "external_transfer_mb": 89.0
+    }
+  },
+  {
+    "alert_id": "ALT-0091",
+    "user_id": "user024",
+    "department": "IT Ops",
+    "date": "2026-05-19",
+    "risk_score": 47.8,
+    "severity": "Medium",
+    "isolation_forest_score": 92.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.29,
+        "weight": 20,
+        "contribution": 18.3,
+        "explanation": "95 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.53,
+      "earliest_login_hour": 7.53,
+      "failed_logins": 0,
+      "files_accessed": 11,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 94.9,
+      "external_transfer_mb": 94.9
+    }
+  },
+  {
+    "alert_id": "ALT-0090",
+    "user_id": "user024",
+    "department": "IT Ops",
+    "date": "2026-05-14",
+    "risk_score": 47.7,
+    "severity": "Medium",
+    "isolation_forest_score": 93.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.18,
+        "weight": 20,
+        "contribution": 17.5,
+        "explanation": "92 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.05,
+      "earliest_login_hour": 7.05,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 91.5,
+      "external_transfer_mb": 91.5
+    }
+  },
+  {
+    "alert_id": "ALT-0095",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-05-15",
+    "risk_score": 47.4,
+    "severity": "Medium",
+    "isolation_forest_score": 85.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.74,
+        "weight": 20,
+        "contribution": 21.9,
+        "explanation": "89 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.6,
+      "earliest_login_hour": 9.6,
+      "failed_logins": 0,
+      "files_accessed": 8,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 2,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 89.1,
+      "external_transfer_mb": 89.1
+    }
+  },
+  {
+    "alert_id": "ALT-0055",
+    "user_id": "user016",
+    "department": "Sales",
+    "date": "2026-06-10",
+    "risk_score": 47.2,
+    "severity": "Medium",
+    "isolation_forest_score": 91.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.21,
+        "weight": 20,
+        "contribution": 17.7,
+        "explanation": "99 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.4,
+      "earliest_login_hour": 8.4,
+      "failed_logins": 0,
+      "files_accessed": 18,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 4,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 99.4,
+      "external_transfer_mb": 99.4
+    }
+  },
+  {
+    "alert_id": "ALT-0093",
+    "user_id": "user024",
+    "department": "IT Ops",
+    "date": "2026-05-23",
+    "risk_score": 47.0,
+    "severity": "Medium",
+    "isolation_forest_score": 95.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 1.87,
+        "weight": 20,
+        "contribution": 14.9,
+        "explanation": "81 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 10,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 80.8,
+      "external_transfer_mb": 80.8
+    }
+  },
+  {
+    "alert_id": "ALT-0036",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-05-09",
+    "risk_score": 46.8,
+    "severity": "Medium",
+    "isolation_forest_score": 94.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 1.9,
+        "weight": 20,
+        "contribution": 15.2,
+        "explanation": "76 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 1,
+      "files_downloaded": 4,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 76.0,
+      "external_transfer_mb": 76.0
+    }
+  },
+  {
+    "alert_id": "ALT-0076",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-06-28",
+    "risk_score": 46.8,
+    "severity": "Medium",
+    "isolation_forest_score": 93.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.46,
+        "weight": 16,
+        "contribution": 15.8,
+        "explanation": "Accessed 10 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 23,
+      "sensitive_files_accessed": 10,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 58.7,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0071",
+    "user_id": "user020",
+    "department": "Finance",
+    "date": "2026-06-13",
+    "risk_score": 46.7,
+    "severity": "Medium",
+    "isolation_forest_score": 93.0,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.46,
+        "weight": 16,
+        "contribution": 15.8,
+        "explanation": "Accessed 10 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 22,
+      "sensitive_files_accessed": 10,
+      "files_downloaded": 7,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 64.7,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0086",
+    "user_id": "user023",
+    "department": "Finance",
+    "date": "2026-06-03",
+    "risk_score": 46.6,
+    "severity": "Medium",
+    "isolation_forest_score": 94.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.32,
+        "weight": 16,
+        "contribution": 14.9,
+        "explanation": "Accessed 6 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 7.67,
+      "earliest_login_hour": 7.67,
+      "failed_logins": 0,
+      "files_accessed": 18,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 5,
+      "usb_events": 1,
+      "usb_first_time": 0,
+      "usb_data_mb": 5.6,
+      "transfer_mb": 23.5,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0101",
+    "user_id": "user026",
+    "department": "Engineering",
+    "date": "2026-06-19",
+    "risk_score": 46.5,
+    "severity": "Medium",
+    "isolation_forest_score": 86.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.49,
+        "weight": 20,
+        "contribution": 19.9,
+        "explanation": "82 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.95,
+      "earliest_login_hour": 9.95,
+      "failed_logins": 0,
+      "files_accessed": 5,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 3,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 82.0,
+      "external_transfer_mb": 82.0
+    }
+  },
+  {
+    "alert_id": "ALT-0016",
+    "user_id": "user003",
+    "department": "Finance",
+    "date": "2026-06-29",
+    "risk_score": 46.4,
+    "severity": "Medium",
+    "isolation_forest_score": 76.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.28,
+        "weight": 20,
+        "contribution": 26.3,
+        "explanation": "68 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.35,
+      "earliest_login_hour": 9.35,
+      "failed_logins": 0,
+      "files_accessed": 19,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 7,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 68.0,
+      "external_transfer_mb": 68.0
+    }
+  },
+  {
+    "alert_id": "ALT-0063",
+    "user_id": "user018",
+    "department": "Finance",
+    "date": "2026-06-10",
+    "risk_score": 45.3,
+    "severity": "Medium",
+    "isolation_forest_score": 93.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "files_downloaded",
+        "z_score": 2.77,
+        "weight": 12,
+        "contribution": 13.3,
+        "explanation": "Downloaded 12 files in a single day \u2014 2.8 std devs above baseline"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.3,
+      "earliest_login_hour": 9.3,
+      "failed_logins": 0,
+      "files_accessed": 29,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 12,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 66.2,
+      "external_transfer_mb": 66.2
+    }
+  },
+  {
+    "alert_id": "ALT-0040",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-06-10",
+    "risk_score": 45.2,
+    "severity": "Medium",
+    "isolation_forest_score": 86.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.21,
+        "weight": 20,
+        "contribution": 17.7,
+        "explanation": "86 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.17,
+      "earliest_login_hour": 8.17,
+      "failed_logins": 0,
+      "files_accessed": 8,
+      "sensitive_files_accessed": 1,
+      "files_downloaded": 2,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 85.7,
+      "external_transfer_mb": 85.7
+    }
+  },
+  {
+    "alert_id": "ALT-0012",
+    "user_id": "user002",
+    "department": "Legal",
+    "date": "2026-06-23",
+    "risk_score": 44.6,
+    "severity": "Medium",
+    "isolation_forest_score": 80.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 3.23,
+        "weight": 16,
+        "contribution": 20.7,
+        "explanation": "Accessed 8 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 10.93,
+      "earliest_login_hour": 10.93,
+      "failed_logins": 0,
+      "files_accessed": 20,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 1.9,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0066",
+    "user_id": "user019",
+    "department": "Legal",
+    "date": "2026-06-11",
+    "risk_score": 44.6,
+    "severity": "Medium",
+    "isolation_forest_score": 88.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.41,
+        "weight": 16,
+        "contribution": 15.4,
+        "explanation": "Accessed 9 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 12.25,
+      "earliest_login_hour": 12.25,
+      "failed_logins": 0,
+      "files_accessed": 22,
+      "sensitive_files_accessed": 9,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 48.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0032",
+    "user_id": "user009",
+    "department": "Sales",
+    "date": "2026-06-16",
+    "risk_score": 44.3,
+    "severity": "Medium",
+    "isolation_forest_score": 92.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "after_hours_login",
+        "z_score": 2.5,
+        "weight": 12,
+        "contribution": 12.0,
+        "explanation": "Login well outside typical hours (earliest login 23:30, 2.5 std devs from baseline)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 23.5,
+      "earliest_login_hour": 23.5,
+      "failed_logins": 0,
+      "files_accessed": 9,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 2,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 0.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0041",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-06-22",
+    "risk_score": 43.9,
+    "severity": "Medium",
+    "isolation_forest_score": 85.3,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.04,
+        "weight": 20,
+        "contribution": 16.3,
+        "explanation": "80 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.15,
+      "earliest_login_hour": 8.15,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 5,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 80.3,
+      "external_transfer_mb": 80.3
+    }
+  },
+  {
+    "alert_id": "ALT-0039",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-06-05",
+    "risk_score": 43.8,
+    "severity": "Medium",
+    "isolation_forest_score": 83.1,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.75,
+        "weight": 16,
+        "contribution": 17.6,
+        "explanation": "Accessed 8 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.6,
+      "earliest_login_hour": 9.6,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 8,
+      "files_downloaded": 2,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 108.0,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0092",
+    "user_id": "user024",
+    "department": "IT Ops",
+    "date": "2026-05-21",
+    "risk_score": 43.8,
+    "severity": "Medium",
+    "isolation_forest_score": 86.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 1.91,
+        "weight": 20,
+        "contribution": 15.3,
+        "explanation": "82 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.07,
+      "earliest_login_hour": 8.07,
+      "failed_logins": 0,
+      "files_accessed": 11,
+      "sensitive_files_accessed": 0,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 82.4,
+      "external_transfer_mb": 82.4
+    }
+  },
+  {
+    "alert_id": "ALT-0082",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-06-18",
+    "risk_score": 43.5,
+    "severity": "Medium",
+    "isolation_forest_score": 84.4,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.54,
+        "weight": 16,
+        "contribution": 16.2,
+        "explanation": "Accessed 5 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 12.03,
+      "earliest_login_hour": 12.03,
+      "failed_logins": 0,
+      "files_accessed": 13,
+      "sensitive_files_accessed": 5,
+      "files_downloaded": 8,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 69.6,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0038",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-06-04",
+    "risk_score": 43.3,
+    "severity": "Medium",
+    "isolation_forest_score": 83.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.09,
+        "weight": 20,
+        "contribution": 16.7,
+        "explanation": "82 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.37,
+      "earliest_login_hour": 9.37,
+      "failed_logins": 0,
+      "files_accessed": 10,
+      "sensitive_files_accessed": 3,
+      "files_downloaded": 1,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 82.0,
+      "external_transfer_mb": 82.0
+    }
+  },
+  {
+    "alert_id": "ALT-0014",
+    "user_id": "user003",
+    "department": "Finance",
+    "date": "2026-05-12",
+    "risk_score": 43.1,
+    "severity": "Medium",
+    "isolation_forest_score": 67.9,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 3.33,
+        "weight": 20,
+        "contribution": 26.6,
+        "explanation": "69 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.62,
+      "earliest_login_hour": 8.62,
+      "failed_logins": 0,
+      "files_accessed": 18,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 68.8,
+      "external_transfer_mb": 68.8
+    }
+  },
+  {
+    "alert_id": "ALT-0084",
+    "user_id": "user022",
+    "department": "Legal",
+    "date": "2026-06-21",
+    "risk_score": 43.1,
+    "severity": "Medium",
+    "isolation_forest_score": 75.2,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 3.39,
+        "weight": 16,
+        "contribution": 21.7,
+        "explanation": "Accessed 6 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": null,
+      "earliest_login_hour": null,
+      "failed_logins": 0,
+      "files_accessed": 14,
+      "sensitive_files_accessed": 6,
+      "files_downloaded": 4,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 71.8,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0034",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-05-01",
+    "risk_score": 42.6,
+    "severity": "Medium",
+    "isolation_forest_score": 82.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 1.98,
+        "weight": 20,
+        "contribution": 15.8,
+        "explanation": "78 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.55,
+      "earliest_login_hour": 9.55,
+      "failed_logins": 0,
+      "files_accessed": 11,
+      "sensitive_files_accessed": 5,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 78.4,
+      "external_transfer_mb": 78.4
+    }
+  },
+  {
+    "alert_id": "ALT-0017",
+    "user_id": "user005",
+    "department": "HR",
+    "date": "2026-05-22",
+    "risk_score": 42.3,
+    "severity": "Medium",
+    "isolation_forest_score": 77.8,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.33,
+        "weight": 20,
+        "contribution": 18.7,
+        "explanation": "78 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.88,
+      "earliest_login_hour": 9.88,
+      "failed_logins": 0,
+      "files_accessed": 16,
+      "sensitive_files_accessed": 2,
+      "files_downloaded": 5,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 78.2,
+      "external_transfer_mb": 78.2
+    }
+  },
+  {
+    "alert_id": "ALT-0062",
+    "user_id": "user018",
+    "department": "Finance",
+    "date": "2026-06-08",
+    "risk_score": 41.8,
+    "severity": "Medium",
+    "isolation_forest_score": 84.6,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "files_downloaded",
+        "z_score": 2.77,
+        "weight": 12,
+        "contribution": 13.3,
+        "explanation": "Downloaded 12 files in a single day \u2014 2.8 std devs above baseline"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.8,
+      "earliest_login_hour": 8.8,
+      "failed_logins": 0,
+      "files_accessed": 26,
+      "sensitive_files_accessed": 4,
+      "files_downloaded": 12,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 89.7,
+      "external_transfer_mb": 0.0
+    }
+  },
+  {
+    "alert_id": "ALT-0019",
+    "user_id": "user006",
+    "department": "Legal",
+    "date": "2026-06-04",
+    "risk_score": 41.7,
+    "severity": "Medium",
+    "isolation_forest_score": 79.5,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "sensitive_files_accessed",
+        "z_score": 2.58,
+        "weight": 16,
+        "contribution": 16.5,
+        "explanation": "Accessed 9 files in sensitive/restricted folders, well above this user's norm"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 9.97,
+      "earliest_login_hour": 9.97,
+      "failed_logins": 0,
+      "files_accessed": 21,
+      "sensitive_files_accessed": 9,
+      "files_downloaded": 6,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 42.5,
+      "external_transfer_mb": 42.5
+    }
+  },
+  {
+    "alert_id": "ALT-0042",
+    "user_id": "user010",
+    "department": "Finance",
+    "date": "2026-06-29",
+    "risk_score": 41.5,
+    "severity": "Medium",
+    "isolation_forest_score": 79.7,
+    "baseline_ready": true,
+    "reasons": [
+      {
+        "feature": "external_transfer_mb",
+        "z_score": 2.0,
+        "weight": 20,
+        "contribution": 16.0,
+        "explanation": "79 MB sent to an external/personal destination (personal email or external cloud storage)"
+      }
+    ],
+    "evidence": {
+      "avg_login_hour": 8.88,
+      "earliest_login_hour": 8.88,
+      "failed_logins": 0,
+      "files_accessed": 7,
+      "sensitive_files_accessed": 1,
+      "files_downloaded": 2,
+      "usb_events": 0,
+      "usb_first_time": 0,
+      "usb_data_mb": 0.0,
+      "transfer_mb": 79.1,
+      "external_transfer_mb": 79.1
+    }
+  }
+]
