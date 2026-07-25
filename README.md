@@ -11,7 +11,7 @@ flowchart LR
         C --> E["Risk Scorer<br/>model.py"]
         D --> E
     end
-    E --> F[("PostgreSQL<br/>Database")]
+    E --> F[("Database<br/>SQLite / PostgreSQL")]
     F --> G["FastAPI Backend<br/>SOC API v3.0"]
     G --> H["React Dashboard<br/>SOC Portal"]
     G --> I[("SSE Real-time<br/>Stream")]
@@ -130,7 +130,7 @@ Each triggered rule shows: **Feature → Z-score → Weight → Contribution →
 | 21 | Report generation (CSV) | `report_generator.py` | ✅ Backend |
 | 22 | Audit logging | `auth.py` + `AuditLog` model | ✅ Backend |
 | 23 | Docker deployment | `docker-compose.yml` + 3 Dockerfiles | ✅ Full Stack |
-| 24 | Unit & API tests | `tests/test_detection.py`, `test_api.py` | ✅ 20+ Tests |
+| 24 | **Unit & API tests** | `tests/test_detection.py`, `test_api.py` | ✅ 29 Tests |
 
 ---
 
@@ -161,19 +161,31 @@ threat/
 │   │   ├── retrain.py            # Model retraining & scheduling
 │   │   ├── report_generator.py   # CSV export reports
 │   │   ├── attack_simulator.py   # Real-time attack simulation engine
+│   │   └── data/                 # Generated data files (JSON, CSV)
+│   ├── data/                     # SQLite database storage (threat.db)
 │   ├── tests/
-│   │   ├── test_detection.py     # 15 unit tests for detection pipeline
-│   │   └── test_api.py           # API integration tests
-│   └── output/                   # JSON output files
+│   │   ├── __init__.py
+│   │   ├── test_detection.py     # 19 unit tests for detection pipeline
+│   │   └── test_api.py           # 10 API integration tests
+│   └── output/                   # JSON output files (alerts, timelines, summary)
 ├── dashboard/
 │   ├── Dockerfile                # Nginx container for built dashboard
 │   ├── nginx.conf                # Nginx config (SPA routing + API proxy)
+│   ├── index.html                # HTML entry point
+│   ├── package.json              # Node dependencies
+│   ├── vite.config.ts            # Vite build config
+│   ├── tailwind.config.js        # Tailwind CSS config
+│   ├── tsconfig.json             # TypeScript config
+│   ├── postcss.config.js         # PostCSS config
 │   └── src/                      # React app (Vite + Tailwind + Recharts)
-│       ├── pages/                # 13 route pages
+│       ├── main.tsx              # App entry point
+│       ├── index.css             # Global styles
+│       ├── types.ts              # TypeScript type definitions
+│       ├── App.tsx               # Route definitions (10 pages)
+│       ├── pages/                # 10 route pages
 │       ├── components/           # Reusable UI components
-│       └── api/client.ts         # 20+ API client methods
+│       └── api/client.ts         # API client methods
 ├── docker-compose.yml            # Full stack orchestration
-├── .env.example                  # Environment template
 └── README.md
 ```
 
@@ -510,18 +522,21 @@ pip install -r requirements.txt
 pytest tests/ -v
 
 # Specific test file
-pytest tests/test_detection.py -v
-pytest tests/test_api.py -v
+pytest tests/test_detection.py -v      # 19 detection pipeline tests
+pytest tests/test_api.py -v             # 10 API integration tests
 ```
 
 ---
 
 ## ⚙️ Configuration
 
-See `.env.example` for all configuration options. Key settings:
+Key configuration options (set as environment variables):
 
 ```env
-DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/insider_threat
+DATABASE_URL=sqlite+aiosqlite:///path/to/threat.db   # Default: local SQLite
+# For PostgreSQL:
+# DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/insider_threat
+
 JWT_SECRET_KEY=your-random-secret-here
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
 RETRAIN_INTERVAL_HOURS=24
