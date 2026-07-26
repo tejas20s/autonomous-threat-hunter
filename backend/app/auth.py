@@ -127,11 +127,11 @@ async def initialize_default_admin():
             await session.commit()
 
 
-async def authenticate_user(username: str, password: str) -> Optional[dict]:
-    """Authenticate a user and return user info + tokens."""
+async def authenticate_user(email: str, password: str) -> Optional[dict]:
+    """Authenticate a user by email and return user info + tokens."""
     async with async_session_factory() as session:
         result = await session.execute(
-            select(SOCUser).where(SOCUser.username == username)
+            select(SOCUser).where(SOCUser.email == email)
         )
         user = result.scalar_one_or_none()
         if not user or not _verify_password(password, user.hashed_password):

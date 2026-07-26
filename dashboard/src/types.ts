@@ -32,6 +32,14 @@ export interface Alert {
   reasons: AlertReason[];
   evidence: AlertEvidence;
   acknowledged?: boolean;
+  mitre_technique_id?: string;
+  mitre_technique_name?: string;
+  mitre_tactic?: string;
+  status?: string;
+  assigned_to?: string | null;
+  resolution_notes?: string | null;
+  created_at?: string;
+  resolved_at?: string | null;
 }
 
 export interface TimelineDay {

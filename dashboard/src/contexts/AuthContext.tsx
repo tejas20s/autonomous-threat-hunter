@@ -5,7 +5,7 @@ import type { AuthUser } from '../types';
 interface AuthContextType {
   user: AuthUser | null;
   loading: boolean;
-  login: (username: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAdmin: boolean;
   isAnalyst: boolean;
@@ -42,8 +42,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = useCallback(async (username: string, password: string) => {
-    const authUser = await api.login(username, password);
+  const login = useCallback(async (email: string, password: string) => {
+    const authUser = await api.login(email, password);
     setAuthToken(authUser.token, (authUser as any).refresh_token);
     setUser(authUser);
   }, []);

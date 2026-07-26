@@ -118,16 +118,16 @@ async function fetchText(url: string, options?: RequestInit): Promise<string> {
 
 export const api = {
   // ── Auth ──────────────────────────────────────────────────────────────
-  login: (username: string, password: string) =>
+  login: (email: string, password: string) =>
     fetchJSON<AuthUser>(`${BASE}/auth/login`, {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     }),
 
-  register: (username: string, email: string, password: string, full_name?: string) =>
+  register: (email: string, password: string, full_name?: string) =>
     fetchJSON<{ status: string; message: string; email: string; expires_in_minutes: number }>(`${BASE}/auth/register`, {
       method: 'POST',
-      body: JSON.stringify({ username, email, password, full_name }),
+      body: JSON.stringify({ email, password, full_name }),
     }),
 
   verifyOtp: (email: string, otp: string) =>
@@ -152,6 +152,24 @@ export const api = {
 
   logout: () =>
     fetchJSON<{ status: string; message: string }>(`${BASE}/auth/logout`, { method: 'POST' }),
+
+  changePassword: (current_password: string, new_password: string) =>
+    fetchJSON<{ status: string; message: string }>(`${BASE}/auth/change-password`, {
+      method: 'POST',
+      body: JSON.stringify({ current_password, new_password }),
+    }),
+
+  forgotPassword: (email: string) =>
+    fetchJSON<{ status: string; message: string; email: string; expires_in_minutes: number }>(`${BASE}/auth/forgot-password`, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }),
+
+  resetPassword: (email: string, otp: string, new_password: string) =>
+    fetchJSON<{ status: string; message: string }>(`${BASE}/auth/reset-password`, {
+      method: 'POST',
+      body: JSON.stringify({ email, otp, new_password }),
+    }),
 
   // ── Dashboard ─────────────────────────────────────────────────────────
   getSummary: () => fetchJSON<DashboardSummary>(`${BASE}/dashboard/summary`),

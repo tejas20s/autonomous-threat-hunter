@@ -112,12 +112,12 @@ async def get_db():
 
 @app.post("/api/auth/login")
 async def login(body: dict):
-    """Login with username/password in JSON body."""
-    username = body.get("username", "")
+    """Login with email/password in JSON body."""
+    email = body.get("email", "")
     password = body.get("password", "")
-    if not username or not password:
-        raise HTTPException(status_code=400, detail="Username and password required")
-    user = await authenticate_user(username, password)
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="Email and password required")
+    user = await authenticate_user(email, password)
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
@@ -128,29 +128,38 @@ async def register(body: dict):
     """
     Step 1 of registration: validate details, save pending, send OTP email.
     Does NOT create the user — that happens after OTP verification.
+    Auto-generates username from email prefix.
     """
     from datetime import timedelta
     import random
     
-    username = body.get("username", "")
     email = body.get("email", "")
     password = body.get("password", "")
     full_name = body.get("full_name")
     
-    if not username or not email or not password:
-        raise HTTPException(status_code=400, detail="Username, email, and password required")
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="Email and password required")
     if len(password) < 6:
         raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
     if "@" not in email:
         raise HTTPException(status_code=400, detail="Invalid email address")
     
-    # Check if user already exists
+    # Auto-generate username from email prefix
+    username = email.split("@")[0]
+    
+    # Check if email already exists
     async with async_session_factory() as session:
         existing = await session.execute(
-            select(SOCUser).where((SOCUser.username == username) | (SOCUser.email == email))
+            select(SOCUser).where(SOCUser.email == email)
         )
         if existing.scalar_one_or_none():
-            raise HTTPException(status_code=400, detail="Username or email already exists")
+            raise HTTPException(status_code=400, detail="Email already registered")
+        # If username taken, append random suffix
+        existing_username = await session.execute(
+            select(SOCUser).where(SOCUser.username == username)
+        )
+        if existing_username.scalar_one_or_none():
+            username = f"{username}_{random.randint(100, 999)}"
     
     # Hash the password now (so we never store plaintext even temporarily)
     from auth import _hash_password
@@ -284,6 +293,111 @@ async def verify_otp(body: dict):
     }
 
 
+@app.post("/api/auth/forgot-password")
+async def forgot_password(body: dict):
+    """Send OTP to email for password reset."""
+    from datetime import timedelta
+    import random
+    
+    email = body.get("email", "")
+    if not email:
+        raise HTTPException(status_code=400, detail="Email required")
+    
+    # Check user exists
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(SOCUser).where(SOCUser.email == email)
+        )
+        user = result.scalar_one_or_none()
+        if not user:
+            raise HTTPException(status_code=404, detail="No account found with this email")
+    
+    # Generate OTP
+    otp = str(random.randint(100000, 999999))
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+    
+    # Store OTP (use OTPVerification with full_name='reset' as purpose marker)
+    async with async_session_factory() as session:
+        # Remove any existing OTP for this email
+        existing = await session.execute(
+            select(OTPVerification).where(OTPVerification.email == email)
+        )
+        for row in existing.scalars().all():
+            await session.delete(row)
+        
+        pending = OTPVerification(
+            email=email,
+            otp_code=otp,
+            username=user.username,
+            hashed_password="",
+            full_name="reset",
+            role=UserRole.ANALYST.value,
+            expires_at=expires_at,
+        )
+        session.add(pending)
+        await session.commit()
+    
+    await send_otp_email(email, otp)
+    
+    return {
+        "status": "otp_sent",
+        "message": f"Verification code sent to {email}",
+        "email": email,
+        "expires_in_minutes": 10,
+    }
+
+
+@app.post("/api/auth/reset-password")
+async def reset_password(body: dict):
+    """Reset password using OTP."""
+    from auth import _hash_password
+    
+    email = body.get("email", "")
+    otp = body.get("otp", "")
+    new_password = body.get("new_password", "")
+    
+    if not email or not otp or not new_password:
+        raise HTTPException(status_code=400, detail="Email, OTP, and new password required")
+    if len(new_password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+    
+    async with async_session_factory() as session:
+        # Find OTP record (full_name='reset' distinguishes from registration)
+        result = await session.execute(
+            select(OTPVerification).where(
+                (OTPVerification.email == email) &
+                (OTPVerification.otp_code == otp) &
+                (OTPVerification.full_name == "reset") &
+                (OTPVerification.verified == False)
+            ).order_by(OTPVerification.created_at.desc()).limit(1)
+        )
+        pending = result.scalar_one_or_none()
+        
+        if not pending:
+            raise HTTPException(status_code=400, detail="Invalid or expired OTP code")
+        
+        if datetime.utcnow() > pending.expires_at:
+            raise HTTPException(status_code=400, detail="OTP code has expired")
+        
+        # Mark as verified
+        pending.verified = True
+        
+        # Update the user's password
+        user_result = await session.execute(
+            select(SOCUser).where(SOCUser.email == email)
+        )
+        user = user_result.scalar_one_or_none()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        user.hashed_password = _hash_password(new_password)
+        await session.commit()
+    
+    await log_audit(email, "reset_password", "auth", email)
+    
+    return {"status": "ok", "message": "Password reset successfully"}
+
+
 @app.post("/api/auth/resend-otp")
 async def resend_otp(body: dict):
     """Resend OTP code for a pending registration."""
@@ -330,6 +444,37 @@ async def refresh_token(body: dict):
     if not result:
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
     return result
+
+
+@app.post("/api/auth/change-password")
+async def change_password(
+    body: dict,
+    current_user: dict = Depends(require_any),
+):
+    """Change password for the currently authenticated user."""
+    from auth import _hash_password, _verify_password
+    
+    current_password = body.get("current_password", "")
+    new_password = body.get("new_password", "")
+    
+    if not current_password or not new_password:
+        raise HTTPException(status_code=400, detail="Current and new password required")
+    if len(new_password) < 6:
+        raise HTTPException(status_code=400, detail="New password must be at least 6 characters")
+    
+    async with async_session_factory() as session:
+        result = await session.execute(
+            select(SOCUser).where(SOCUser.username == current_user["username"])
+        )
+        user = result.scalar_one_or_none()
+        if not user or not _verify_password(current_password, user.hashed_password):
+            raise HTTPException(status_code=400, detail="Current password is incorrect")
+        
+        user.hashed_password = _hash_password(new_password)
+        await session.commit()
+    
+    await log_audit(current_user["username"], "change_password", "auth", current_user["username"])
+    return {"status": "ok", "message": "Password changed successfully"}
 
 
 @app.post("/api/auth/logout")

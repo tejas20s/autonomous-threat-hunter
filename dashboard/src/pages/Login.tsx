@@ -4,7 +4,7 @@ import { ShieldAlert, Eye, EyeOff, Activity } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -17,17 +17,17 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!username.trim() || !password.trim()) {
-      setError('Please enter both username and password');
+    if (!email.trim() || !password.trim()) {
+      setError('Please enter both email and password');
       return;
     }
     setError('');
     setSubmitting(true);
     try {
-      await login(username.trim(), password);
+      await login(email.trim(), password);
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err?.message?.includes('401') ? 'Invalid username or password' : 'Login failed. Please try again.');
+      setError(err?.message?.includes('401') ? 'Invalid email or password' : 'Login failed. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -67,16 +67,16 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
-                Username
+              <label htmlFor="email" className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-primary)' }}>
+                Email
               </label>
               <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your username"
-                autoComplete="username"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                autoComplete="email"
                 autoFocus
                 className="input-field w-full px-4 py-2.5"
               />
@@ -115,21 +115,29 @@ export default function Login() {
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold text-sm hover:from-indigo-500 hover:to-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-500/20"
-            >
-              {submitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <Activity size={16} className="animate-spin" />
-                  Signing in...
-                </span>
-              ) : (
-                'Sign In'
-              )}
-            </button>
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold text-sm hover:from-indigo-500 hover:to-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-500/20"
+              >
+                {submitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Activity size={16} className="animate-spin" />
+                    Signing in...
+                  </span>
+                ) : (
+                  'Sign In'
+                )}
+              </button>
+            </div>
           </form>
+
+          <div className="text-center mt-3">
+            <Link to="/forgot-password" className="text-xs font-medium transition-colors" style={{ color: 'var(--text-muted)' }}>
+              Forgot Password?
+            </Link>
+          </div>
         </div>
 
         {/* Register link */}
@@ -144,7 +152,7 @@ export default function Login() {
 
         {/* Footer */}
         <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>
-          Default credentials: <span style={{ color: 'var(--text-secondary)' }} className="font-mono">admin</span> / <span style={{ color: 'var(--text-secondary)' }} className="font-mono">admin123</span>
+          Default: <span style={{ color: 'var(--text-secondary)' }} className="font-mono">admin@soc.local</span> / <span style={{ color: 'var(--text-secondary)' }} className="font-mono">(from .env)</span>
         </p>
       </div>
     </div>
