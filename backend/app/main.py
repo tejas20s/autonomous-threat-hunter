@@ -75,7 +75,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+@app.get("/")
+def root():
+    return {
+        "message": "Autonomous Threat Hunter API is running"
+    }
 
 # ── Startup ───────────────────────────────────────────────────────────────
 
