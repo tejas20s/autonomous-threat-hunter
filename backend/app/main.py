@@ -17,6 +17,7 @@ Endpoints for:
 ALL secrets come from environment variables (loaded via .env).
 """
 
+import asyncio
 import json
 import math
 import os
@@ -95,6 +96,14 @@ async def startup():
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────
+
+async def _send_otp_background(email: str, otp: str):
+    """Fire-and-forget OTP email sender. Errors are non-fatal (OTP is already in DB)."""
+    try:
+        await send_otp_email(email, otp)
+    except Exception:
+        pass  # Email delivery failures are non-fatal
+
 
 def _load_json(name):
     path = OUT_DIR / name
@@ -194,8 +203,8 @@ async def register(body: dict):
         session.add(pending)
         await session.commit()
     
-    # Send OTP via email
-    await send_otp_email(email, otp)
+    # Send OTP via email (fire-and-forget — don't block the response)
+    asyncio.create_task(_send_otp_background(email, otp))
     
     return {
         "status": "otp_sent",
@@ -341,7 +350,8 @@ async def forgot_password(body: dict):
         session.add(pending)
         await session.commit()
     
-    await send_otp_email(email, otp)
+    # Send OTP via email (fire-and-forget — don't block the response)
+    asyncio.create_task(_send_otp_background(email, otp))
     
     return {
         "status": "otp_sent",
@@ -430,7 +440,8 @@ async def resend_otp(body: dict):
         pending.expires_at = datetime.utcnow() + timedelta(minutes=10)
         await session.commit()
     
-    await send_otp_email(email, new_otp)
+    # Send OTP via email (fire-and-forget — don't block the response)
+    asyncio.create_task(_send_otp_background(email, new_otp))
     
     return {
         "status": "otp_sent",
