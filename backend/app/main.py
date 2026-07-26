@@ -210,6 +210,7 @@ async def register(body: dict):
         "status": "otp_sent",
         "message": f"Verification code sent to {email}",
         "email": email,
+        "otp": otp,
         "expires_in_minutes": 10,
     }
 
@@ -357,6 +358,7 @@ async def forgot_password(body: dict):
         "status": "otp_sent",
         "message": f"Verification code sent to {email}",
         "email": email,
+        "otp": otp,
         "expires_in_minutes": 10,
     }
 
@@ -446,6 +448,7 @@ async def resend_otp(body: dict):
     return {
         "status": "otp_sent",
         "message": f"New verification code sent to {email}",
+        "otp": new_otp,
     }
 
 

@@ -15,6 +15,7 @@ export default function ForgotPassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [otpEmail, setOtpEmail] = useState('');
+  const [displayOtp, setDisplayOtp] = useState('');
   const [otpTimer, setOtpTimer] = useState(600);
   const [canResend, setCanResend] = useState(false);
 
@@ -91,6 +92,7 @@ export default function ForgotPassword() {
     try {
       const result = await api.forgotPassword(email.trim());
       setOtpEmail(result.email);
+      setDisplayOtp((result as any).otp || '');
       setOtpTimer(600);
       setCanResend(false);
       setOtp(['', '', '', '', '', '']);
@@ -225,6 +227,19 @@ export default function ForgotPassword() {
                 />
               ))}
             </div>
+
+            {/* Show OTP directly on screen since email delivery may be delayed */}
+            {displayOtp && (
+              <div className="rounded-lg px-4 py-4 mb-4 text-center"
+                style={{ backgroundColor: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.3)' }}
+              >
+                <p className="text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Your verification code</p>
+                <p className="text-2xl font-bold tracking-[0.25em] text-indigo-400">{displayOtp}</p>
+                <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                  (Also sent via email — check spam folder)
+                </p>
+              </div>
+            )}
 
             {/* New Password */}
             <div className="space-y-4 mb-4">
